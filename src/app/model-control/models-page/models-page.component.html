@@ -1,0 +1,5 @@
+<nav class="nav models__nav">
+  <a *ngFor="let link of links" [routerLink]="link.href" class="nav__a">{{
+    link.title
+  }}</a>
+</nav>

@@ -20,6 +20,7 @@
     "postinstall": "electron-builder install-app-deps",
     "ng": "ng",
     "start": "npm-run-all -p ng:serve electron:serve",
+    "start:web": "npm-run-all -p ng:serve:web electron:serve",
     "build": "npm run electron:serve-tsc && ng build",
     "build:dev": "npm run build -- -c dev",
     "build:prod": "npm run build -- -c production",
@@ -82,5 +83,9 @@
   },
   "engines": {
     "node": ">=10.9.0"
+  },
+  "dependencies": {
+    "@types/mssql": "^4.3.1",
+    "mssql": "^5.1.0"
   }
 }
