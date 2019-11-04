@@ -1,5 +1,6 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BaseModel } from './base-model';
+import { FormType } from './form-type';
 const required = Validators.required;
 
 export class InfoCategory extends BaseModel {
@@ -11,12 +12,18 @@ export class InfoCategory extends BaseModel {
     super();
   }
 
-  static getFormGroup() {
-    return new FormGroup({
-      IDInfoCategory: new FormControl(),
-      IDTypeInfoCategory: new FormControl(0, required),
-      Name: new FormControl('', required)
-    });
+  static getTypes(): FormType[] {
+    return [
+      {
+        key: 'IDInfoCategory',
+        type: 'number'
+      },
+      {
+        key: 'IDTypeInfoCategory',
+        type: 'number',
+        validators: required
+      }
+    ];
   }
 
   static getFromFormGroup({

@@ -1,5 +1,6 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BaseModel } from './base-model';
+import { FormType } from './form-type';
 const required = Validators.required;
 
 export class Transfer extends BaseModel {
@@ -12,13 +13,28 @@ export class Transfer extends BaseModel {
     super();
   }
 
-  static getFormGroup() {
-    return new FormGroup({
-      IDTransfer: new FormControl(),
-      IDStudent: new FormControl(0, required),
-      IDStudyGroup: new FormControl(0, required),
-      Date: new FormControl(new Date(), required)
-    });
+  static getTypes(): FormType[] {
+    return [
+      {
+        key: 'IDTransfer',
+        type: 'number'
+      },
+      {
+        key: 'IDStudent',
+        type: 'number',
+        validators: required
+      },
+      {
+        key: 'IDStudyGroup',
+        type: 'number',
+        validators: required
+      },
+      {
+        key: 'Date',
+        type: 'date',
+        validators: required
+      }
+    ];
   }
 
   static getFromFormGroup({

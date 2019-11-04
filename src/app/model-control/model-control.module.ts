@@ -9,14 +9,24 @@ import {
   MatTableModule,
   MatSidenavModule,
   MatButtonModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatSnackBarModule,
+  MatSelectModule
 } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TranslateKeysPipe } from './translate-keys.pipe';
 import { PageComponent } from './page/page.component';
+import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
 
 @NgModule({
-  declarations: [ModelsPageComponent, TranslateKeysPipe, PageComponent],
+  declarations: [
+    ModelsPageComponent,
+    TranslateKeysPipe,
+    PageComponent,
+    DynamicFormComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -27,7 +37,11 @@ import { PageComponent } from './page/page.component';
     MatTableModule,
     MatSidenavModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatSnackBarModule,
+    MatSelectModule
   ]
 })
 export class ModelControlModule {}

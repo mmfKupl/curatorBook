@@ -1,6 +1,7 @@
 import { SexType, forbiddenNameValidator, SexTypeRegExp } from './sex.type';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BaseModel } from './base-model';
+import { FormType } from './form-type';
 const required = Validators.required;
 
 export class Parent extends BaseModel {
@@ -19,22 +20,59 @@ export class Parent extends BaseModel {
     super();
   }
 
-  static getFormGroup() {
-    return new FormGroup({
-      IDParent: new FormControl(),
-      Citizenship: new FormControl('', required),
-      Surname: new FormControl('', required),
-      Name: new FormControl('', required),
-      Patronymic: new FormControl('', required),
-      Sex: new FormControl('', [
-        required,
-        forbiddenNameValidator(SexTypeRegExp)
-      ]),
-      WorkPlace: new FormControl('', required),
-      WorkPosition: new FormControl('', required),
-      PhoneNumber1: new FormControl('', required),
-      PhoneNumber2: new FormControl('', required)
-    });
+  static getTypes(): FormType[] {
+    return [
+      {
+        key: 'IDParent',
+        type: 'number'
+      },
+      {
+        key: 'Citizenship',
+        type: 'text',
+        validators: required
+      },
+      {
+        key: 'Surname',
+        type: 'text',
+        validators: required
+      },
+      {
+        key: 'Name',
+        type: 'text',
+        validators: required
+      },
+      {
+        key: 'Patronymic',
+        type: 'text',
+        validators: required
+      },
+      {
+        key: 'Sex',
+        type: 'select',
+        options: ['М', 'Ж'],
+        validators: required
+      },
+      {
+        key: 'WorkPlace',
+        type: 'text',
+        validators: required
+      },
+      {
+        key: 'WorkPosition',
+        type: 'text',
+        validators: required
+      },
+      {
+        key: 'PhoneNumber1',
+        type: 'tel',
+        validators: required
+      },
+      {
+        key: 'PhoneNumber2',
+        type: 'tel',
+        validators: required
+      }
+    ];
   }
 
   static getFromFormGroup({

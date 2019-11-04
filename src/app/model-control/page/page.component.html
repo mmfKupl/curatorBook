@@ -6,19 +6,23 @@
       class="model__form"
       [formGroup]="currentFormGroup"
     >
-      <mat-form-field
-        class="form__form-field"
-        *ngFor="let key of formControlNames"
+      <app-dynamic-form
+        *ngFor="let formType of currentFormTypes"
+        [form]="currentFormGroup"
+        [formType]="formType"
+      ></app-dynamic-form>
+      <button
+        mat-button
+        color="primary"
+        type="submit"
+        [disabled]="currentFormGroup.invalid"
       >
-        <input
-          class="form__form-input"
-          [formControlName]="key"
-          matInput
-          [placeholder]="key | translateKeys"
-        />
-      </mat-form-field>
-      <button mat-button type="submit">Добавить</button>
-      <button mat-button type="reset">Очистить</button>
+        {{ isEdit ? 'Сохранить' : 'Добавить' }}
+      </button>
+      <button mat-button color="warn" type="reset">Очистить</button>
+      <button mat-button color="warn" (click)="deleteItem($event)">
+        Удалить
+      </button>
     </form>
   </mat-drawer>
 
@@ -53,7 +57,9 @@
         Редактировать
       </th>
       <td mat-cell *matCellDef="let i = index" class="td__button">
-        <button mat-button class="button--edit" (click)="editItem(i)"></button>
+        <button mat-button color="accent" (click)="editItem(i); drawer.open()">
+          ред.
+        </button>
       </td>
     </ng-container>
 
@@ -61,10 +67,21 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
-  <button type="button" mat-button (click)="drawer.toggle()">
-    Добавить
-  </button>
-  <button type="button" mat-button (click)="deleteSelected()">
-    Удалить выбранные
-  </button>
+  <div class="buttons-wrapper">
+    <button type="button" mat-button color="primary" (click)="drawer.toggle()">
+      Добавить
+    </button>
+    <button type="button" mat-button color="warn" (click)="deleteSelected()">
+      Удалить выбранные
+    </button>
+    <button
+      type="button"
+      class="ml-auto"
+      mat-button
+      color="primary"
+      (click)="updateTable()"
+    >
+      Обновить данные
+    </button>
+  </div>
 </mat-drawer-container>

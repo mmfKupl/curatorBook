@@ -1,0 +1,63 @@
+<div [formGroup]="form" [ngSwitch]="formType.type">
+  <mat-form-field *ngSwitchCase="'number'">
+    <input
+      matInput
+      [type]="'number'"
+      [formControlName]="formType.key"
+      [placeholder]="formType.key | translateKeys"
+    />
+  </mat-form-field>
+  <mat-form-field *ngSwitchCase="'text'">
+    <input
+      matInput
+      [type]="'text'"
+      [formControlName]="formType.key"
+      [placeholder]="formType.key | translateKeys"
+    />
+  </mat-form-field>
+  <mat-form-field *ngSwitchCase="'tel'">
+    <input
+      matInput
+      [type]="'tel'"
+      [formControlName]="formType.key"
+      [placeholder]="formType.key | translateKeys"
+    />
+  </mat-form-field>
+
+  <mat-form-field *ngSwitchCase="'textarea'">
+    <mat-label>{{ formType.key | translateKeys }}</mat-label>
+    <textarea
+      matInput
+      cdkTextareaAutosize
+      [formControlName]="formType.key"
+      [placeholder]="formType.key | translateKeys"
+    ></textarea>
+  </mat-form-field>
+
+  <mat-form-field *ngSwitchCase="'select'">
+    <mat-label>{{ formType.key | translateKeys }}</mat-label>
+    <mat-select [formControlName]="formType.key">
+      <mat-option *ngFor="let opt of formType.options" [value]="opt">{{
+        opt
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-checkbox
+    *ngSwitchCase="'checkbox'"
+    [formControlName]="formType.key"
+    [labelPosition]="'before'"
+    >{{ formType.key | translateKeys }}</mat-checkbox
+  >
+
+  <mat-form-field *ngSwitchCase="'date'">
+    <input
+      matInput
+      [formControlName]="formType.key"
+      [placeholder]="formType.key | translateKeys"
+      [matDatepicker]="picker"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>

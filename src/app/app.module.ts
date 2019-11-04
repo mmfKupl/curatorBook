@@ -16,11 +16,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { ModelControlModule } from './model-control/model-control.module';
+import { SnackBarComponent } from './snack-bar/snack-bar.component';
+import { ModelsPageComponent } from './model-control/models-page/models-page.component';
 
 // AoT requires an exported function for factories
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, SnackBarComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

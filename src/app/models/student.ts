@@ -1,6 +1,7 @@
 import { SexType, forbiddenNameValidator, SexTypeRegExp } from './sex.type';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BaseModel } from './base-model';
+import { FormType } from './form-type';
 const required = Validators.required;
 
 export class Student extends BaseModel {
@@ -22,25 +23,74 @@ export class Student extends BaseModel {
     super();
   }
 
-  static getFormGroup() {
-    return new FormGroup({
-      IDStudent: new FormControl(),
-      IDTown: new FormControl(0, required),
-      IDParent1: new FormControl(0, required),
-      IDParent2: new FormControl(0, required),
-      Citizenship: new FormControl('', required),
-      Surname: new FormControl('', required),
-      Name: new FormControl('', required),
-      Patronymic: new FormControl('', required),
-      Sex: new FormControl('', [
-        required,
-        forbiddenNameValidator(SexTypeRegExp)
-      ]),
-      DateOfBirth: new FormControl(new Date(), required),
-      PlaceOfResidence: new FormControl('', required),
-      AddresOfResidence: new FormControl('', required),
-      PhoneNumber: new FormControl('', required)
-    });
+  static getTypes(): FormType[] {
+    return [
+      {
+        key: 'IDStudent',
+        type: 'number'
+      },
+      {
+        key: 'IDTown',
+        type: 'number',
+        validators: required
+      },
+      {
+        key: 'IDParent1',
+        type: 'number',
+        validators: required
+      },
+      {
+        key: 'IDParent2',
+        type: 'number',
+        validators: required
+      },
+      {
+        key: 'Citizenship',
+        type: 'text',
+        validators: required
+      },
+      {
+        key: 'Surname',
+        type: 'text',
+        validators: required
+      },
+      {
+        key: 'Name',
+        type: 'text',
+        validators: required
+      },
+      {
+        key: 'Patronymic',
+        type: 'text',
+        validators: required
+      },
+      {
+        key: 'Sex',
+        type: 'select',
+        options: ['М', 'Ж'],
+        validators: required
+      },
+      {
+        key: 'DateOfBirth',
+        type: 'date',
+        validators: required
+      },
+      {
+        key: 'PlaceOfResidence',
+        type: 'text',
+        validators: required
+      },
+      {
+        key: 'AddresOfResidence',
+        type: 'text',
+        validators: required
+      },
+      {
+        key: 'PhoneNumber',
+        type: 'tel',
+        validators: required
+      }
+    ];
   }
 
   static getFromFormGroup({

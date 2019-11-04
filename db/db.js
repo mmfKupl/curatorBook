@@ -56,23 +56,6 @@ var DatabaseInterface = /** @class */ (function () {
             });
         });
     };
-    DatabaseInterface.prototype.getList = function (name) {
-        return this.connection.query("exec Get" + name + "List");
-    };
-    DatabaseInterface.prototype.getTownList = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.connection.query("exec GetTownList")];
-                    case 1:
-                        data = _a.sent();
-                        console.log(data.recordset);
-                        return [2 /*return*/, data.recordset];
-                }
-            });
-        });
-    };
     return DatabaseInterface;
 }());
 exports.DatabaseInterface = DatabaseInterface;

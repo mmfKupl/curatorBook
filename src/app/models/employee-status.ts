@@ -1,5 +1,6 @@
 import { BaseModel } from './base-model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormType } from './form-type';
 const required = Validators.required;
 
 export class EmployeeStatus extends BaseModel {
@@ -11,11 +12,18 @@ export class EmployeeStatus extends BaseModel {
     super();
   }
 
-  static getFormGroup() {
-    return new FormGroup({
-      IDEmployeeStatus: new FormControl(),
-      Type: new FormControl('', required)
-    });
+  static getTypes(): FormType[] {
+    return [
+      {
+        key: 'IDEmployeeStatus',
+        type: 'number'
+      },
+      {
+        key: 'Type',
+        type: 'text',
+        validators: required
+      }
+    ];
   }
 
   static getFromFormGroup({

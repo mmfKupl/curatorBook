@@ -12,13 +12,13 @@ export class ModelsPageComponent implements OnInit {
   links: Link[] = [
     { title: 'Ученик', href: 'student' },
     { title: 'Группа', href: 'study-group' },
+    { title: 'Перевод', href: 'transfer' },
     { title: 'Работник', href: 'employee' },
     { title: 'Статус работника', href: 'employee-status' },
-    { title: 'Категория информации', href: 'info-category' },
-    { title: 'Информация', href: 'info' },
     { title: 'Родитель', href: 'parent' },
     { title: 'Город', href: 'town' },
-    { title: 'Перевод', href: 'transfer' },
+    { title: 'Информация', href: 'info' },
+    { title: 'Категория информации', href: 'info-category' },
     { title: 'Тип категории информации', href: 'type-info-category' }
   ];
 
