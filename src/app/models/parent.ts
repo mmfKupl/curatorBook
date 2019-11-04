@@ -1,4 +1,4 @@
-import { SexType } from './sex.type';
+import { SexType, forbiddenNameValidator, SexTypeRegExp } from './sex.type';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BaseModel } from './base-model';
 const required = Validators.required;
@@ -21,12 +21,15 @@ export class Parent extends BaseModel {
 
   static getFormGroup() {
     return new FormGroup({
-      IDParent: new FormControl(0, required),
+      IDParent: new FormControl(),
       Citizenship: new FormControl('', required),
       Surname: new FormControl('', required),
       Name: new FormControl('', required),
       Patronymic: new FormControl('', required),
-      Sex: new FormControl('М', required),
+      Sex: new FormControl('', [
+        required,
+        forbiddenNameValidator(SexTypeRegExp)
+      ]),
       WorkPlace: new FormControl('', required),
       WorkPosition: new FormControl('', required),
       PhoneNumber1: new FormControl('', required),

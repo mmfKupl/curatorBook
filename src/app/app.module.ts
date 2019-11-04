@@ -10,6 +10,8 @@ import { SharedModule } from './shared/shared.module';
 
 import { AppRoutingModule } from './app-routing.module';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 // NG Translate
 
 import { AppComponent } from './app.component';
@@ -21,8 +23,7 @@ import { ModelControlModule } from './model-control/model-control.module';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     CoreModule,
     SharedModule,

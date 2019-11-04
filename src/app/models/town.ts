@@ -9,7 +9,7 @@ export class Town extends BaseModel {
 
   static getFormGroup() {
     return new FormGroup({
-      IDTown: new FormControl(0, required),
+      IDTown: new FormControl(),
       Name: new FormControl('', required)
     });
   }

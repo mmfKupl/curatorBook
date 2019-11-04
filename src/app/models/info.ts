@@ -17,7 +17,7 @@ export class Info extends BaseModel {
 
   static getFormGroup() {
     return new FormGroup({
-      IDInfo: new FormControl(0, required),
+      IDInfo: new FormControl(),
       IDStudent: new FormControl(0, required),
       IDInfoCategory: new FormControl(0, required),
       Course: new FormControl(0, required),

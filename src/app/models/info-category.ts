@@ -13,7 +13,7 @@ export class InfoCategory extends BaseModel {
 
   static getFormGroup() {
     return new FormGroup({
-      IDInfoCategory: new FormControl(0, required),
+      IDInfoCategory: new FormControl(),
       IDTypeInfoCategory: new FormControl(0, required),
       Name: new FormControl('', required)
     });

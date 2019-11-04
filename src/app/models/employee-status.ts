@@ -2,21 +2,27 @@ import { BaseModel } from './base-model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 const required = Validators.required;
 
-export type EmployeeType = 0 | 1 | 2;
-
 export class EmployeeStatus extends BaseModel {
-  constructor(public IDEmployeeStatus: number, public Type: EmployeeType) {
+  constructor(
+    public IDEmployeeStatus: number,
+    public Type: number,
+    public Name: string
+  ) {
     super();
   }
 
   static getFormGroup() {
     return new FormGroup({
-      IDEmployeeStatus: new FormControl(0, required),
+      IDEmployeeStatus: new FormControl(),
       Type: new FormControl('', required)
     });
   }
 
-  static getFromFormGroup({ IDEmployeeStatus, Type }: any): EmployeeStatus {
-    return new EmployeeStatus(IDEmployeeStatus, Type);
+  static getFromFormGroup({
+    IDEmployeeStatus,
+    Type,
+    Name
+  }: any): EmployeeStatus {
+    return new EmployeeStatus(IDEmployeeStatus, Type, Name);
   }
 }

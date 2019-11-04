@@ -1,0 +1,70 @@
+<mat-drawer-container class="wrapper" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <form
+      (submit)="submitForm()"
+      *ngIf="currentFormGroup"
+      class="model__form"
+      [formGroup]="currentFormGroup"
+    >
+      <mat-form-field
+        class="form__form-field"
+        *ngFor="let key of formControlNames"
+      >
+        <input
+          class="form__form-input"
+          [formControlName]="key"
+          matInput
+          [placeholder]="key | translateKeys"
+        />
+      </mat-form-field>
+      <button mat-button type="submit">Добавить</button>
+      <button mat-button type="reset">Очистить</button>
+    </form>
+  </mat-drawer>
+
+  <table mat-table [dataSource]="tableData">
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef class="th__select">
+        <mat-checkbox
+          (change)="$event ? masterToggle() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+          [aria-label]="checkboxLabel()"
+        >
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row" class="td__select">
+        <mat-checkbox
+          (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)"
+          [aria-label]="checkboxLabel(row)"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container *ngFor="let key of formControlNames" [matColumnDef]="key">
+      <th mat-header-cell *matHeaderCellDef>{{ key | translateKeys }}</th>
+      <td mat-cell *matCellDef="let row">{{ row[key] }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef class="th__button">
+        Редактировать
+      </th>
+      <td mat-cell *matCellDef="let i = index" class="td__button">
+        <button mat-button class="button--edit" (click)="editItem(i)"></button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <button type="button" mat-button (click)="drawer.toggle()">
+    Добавить
+  </button>
+  <button type="button" mat-button (click)="deleteSelected()">
+    Удалить выбранные
+  </button>
+</mat-drawer-container>

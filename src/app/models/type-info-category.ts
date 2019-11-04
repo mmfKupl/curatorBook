@@ -9,7 +9,7 @@ export class TypeInfoCategory extends BaseModel {
 
   static getFormGroup() {
     return new FormGroup({
-      IDTypeInfoCategory: new FormControl(0, required),
+      IDTypeInfoCategory: new FormControl(),
       Name: new FormControl('', required)
     });
   }

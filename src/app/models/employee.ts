@@ -16,7 +16,7 @@ export class Employee extends BaseModel {
 
   static getFormGroup() {
     return new FormGroup({
-      IDEmployee: new FormControl(0, required),
+      IDEmployee: new FormControl(),
       IDEmployeeStatus: new FormControl(0, required),
       Surname: new FormControl('', required),
       Name: new FormControl('', required),

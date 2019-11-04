@@ -14,7 +14,7 @@ export class Transfer extends BaseModel {
 
   static getFormGroup() {
     return new FormGroup({
-      IDTransfer: new FormControl(0, required),
+      IDTransfer: new FormControl(),
       IDStudent: new FormControl(0, required),
       IDStudyGroup: new FormControl(0, required),
       Date: new FormControl(new Date(), required)

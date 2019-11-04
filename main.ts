@@ -11,6 +11,7 @@ serve = args.some(val => val === '--serve');
 
 async function createWindow() {
   globalDb.database = await DatabaseInterface.init();
+  console.log(globalDb.database);
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 

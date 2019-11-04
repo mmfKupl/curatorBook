@@ -1,6 +1,16 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap&subset=cyrillic,cyrillic-ext,latin-ext');
 /* You can add global styles to this file, and also import other style files */
-html {
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
+html,
+body {
+  margin: 0;
+  padding: 0;
+
+  height: 100%;
+}
+
+body {
+  background-color: #fafafa;
+}
+
+header {
+  background-color: #ffffff;
 }

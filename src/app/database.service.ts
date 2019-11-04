@@ -26,100 +26,141 @@ export class DatabaseService {
   }
 
   private async getList(name: string) {
-    return this.connection.query(`exec Get${name}List`);
+    return (await this.connection.query(`exec Get${name}List`)).recordset;
   }
 
-  async addTown(town: Town) {
-    return this.connection.query(`exec AddTown ${town.Name}`);
+  async addTown({ Name }: Town) {
+    return this.connection.query(`exec AddTown ${Name}`);
   }
 
   async getTownList() {
-    return this.getList('Town');
+    return await this.getList('Town');
   }
 
-  async addEmployeeStatus(es: EmployeeStatus) {
-    return this.connection.query(`exec AddEmployeeStatus ${es.Type}`);
+  async addEmployeeStatus({ Type, Name }: EmployeeStatus) {
+    return this.connection.query(`exec AddEmployeeStatus ${Type} ${Name}`);
   }
 
   async getEmployeeStatusList() {
-    return this.getList('EmployeeStatus');
+    return await this.getList('EmployeeStatus');
   }
 
-  async addTypeInfoCategory(tic: TypeInfoCategory) {
-    return this.connection.query(`exec AddTypeInfoCategory ${tic.Name}`);
+  async addTypeInfoCategory({ Name }: TypeInfoCategory) {
+    return this.connection.query(`exec AddTypeInfoCategory ${Name}`);
   }
 
   async getTypeInfoCategoryList() {
-    return this.getList('TypeInfoCategory');
+    return await this.getList('TypeInfoCategory');
   }
 
-  async addInfoCategory(ic: InfoCategory) {
+  async addInfoCategory({ IDTypeInfoCategory, Name }: InfoCategory) {
     return this.connection.query(
-      `exec AddInfoCategory ${ic.IDTypeInfoCategory} ${ic.Name}`
+      `exec AddInfoCategory ${IDTypeInfoCategory} ${Name}`
     );
   }
 
   async getInfoCategoryList() {
-    return this.getList('InfoCategory');
+    return await this.getList('InfoCategory');
   }
 
-  async addEmployee(e: Employee) {
+  async addEmployee({
+    IDEmployeeStatus,
+    Surname,
+    Name,
+    Patronymic,
+    PhoneNumber
+  }: Employee) {
     return this.connection.query(
-      `exec AddEmployee ${e.IDEmployeeStatus} ${e.Surname} ${e.Name} ${e.Patronymic} ${e.PhoneNumber}`
+      `exec AddEmployee ${IDEmployeeStatus} ${Surname} ${Name} ${Patronymic} ${PhoneNumber}`
     );
   }
 
   async getEmployeeList() {
-    return this.getList('Employee');
+    return await this.getList('Employee');
   }
 
-  async addParent(p: Parent) {
+  async addParent({
+    Citizenship,
+    Surname,
+    Name,
+    Patronymic,
+    Sex,
+    WorkPlace,
+    WorkPosition,
+    PhoneNumber1,
+    PhoneNumber2
+  }: Parent) {
     return this.connection.query(
-      `exec AddParent ${p.Citizenship} ${p.Surname} ${p.Name} ${p.Patronymic} ${p.Sex} ${p.WorkPlace} ${p.WorkPosition} ${p.PhoneNumber1} ${p.PhoneNumber2}`
+      `exec AddParent ${Citizenship} ${Surname} ${Name} ${Patronymic} ${Sex} ${WorkPlace} ${WorkPosition} ${PhoneNumber1} ${PhoneNumber2}`
     );
   }
 
   async getParentList() {
-    return this.getList('Parent');
+    return await this.getList('Parent');
   }
 
-  async addStudent(s: Student) {
+  async addStudent({
+    IDTown,
+    IDParent1,
+    IDParent2,
+    Citizenship,
+    Surname,
+    Name,
+    Patronymic,
+    Sex,
+    DateOfBirth,
+    PlaceOfResidence,
+    AddresOfResidence,
+    PhoneNumber
+  }: Student) {
     return this.connection.query(
-      `exec AddStudent ${s.IDTown} ${s.IDParent1} ${s.IDParent2} ${s.Citizenship} ${s.Surname} ${s.Name} ${s.Patronymic} ${s.Sex} ${s.DateOfBirth} ${s.PlaceOfResidence} ${s.AddresOfResidence} ${s.PhoneNumber}`
+      `exec AddStudent ${IDTown} ${IDParent1} ${IDParent2} ${Citizenship} ${Surname} ${Name} ${Patronymic} ${Sex} ${DateOfBirth} ${PlaceOfResidence} ${AddresOfResidence} ${PhoneNumber}`
     );
   }
 
   async getStudentList() {
-    return this.getList('Student');
+    return await this.getList('Student');
   }
 
-  async addInfo(i: Info) {
+  async addInfo({
+    IDStudent,
+    IDInfoCategory,
+    Course,
+    Semester,
+    TextData,
+    BoolData
+  }: Info) {
     return this.connection.query(
-      `exec AddInfo ${i.IDStudent} ${i.IDInfoCategory} ${i.Course} ${i.Semester} ${i.TextData} ${i.BoolData}`
+      `exec AddInfo ${IDStudent} ${IDInfoCategory} ${Course} ${Semester} ${TextData} ${BoolData}`
     );
   }
 
   async getInfoList() {
-    return this.getList('Info');
+    return await this.getList('Info');
   }
 
-  async addStudyGroup(sg: StudyGroup) {
+  async addStudyGroup({
+    IDEmployee,
+    GroupNumber,
+    Specialty,
+    DateOfFormation
+  }: StudyGroup) {
     return this.connection.query(
-      `exec AddStudyGroup ${sg.IDEmployee} ${sg.GroupNumber} ${sg.Specialty} ${sg.DateOfFormation}`
+      `exec AddStudyGroup ${IDEmployee} ${GroupNumber} ${Specialty} ${DateOfFormation}`
     );
   }
 
   async getStudyGroupList() {
-    return this.getList('StudyGroup');
+    return await this.getList('StudyGroup');
   }
 
-  async addTransfer(t: Transfer) {
+  async addTransfer({ IDStudent, IDStudyGroup, Date }: Transfer) {
     return this.connection.query(
-      `exec AddTransfer ${t.IDStudent} ${t.IDStudyGroup} ${t.Date}`
+      `exec AddTransfer ${IDStudent} ${IDStudyGroup} ${Date}`
     );
   }
 
   async getTransferList() {
-    return this.getList('Transfer');
+    return await this.getList('Transfer');
   }
 }

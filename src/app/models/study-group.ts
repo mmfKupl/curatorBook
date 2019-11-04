@@ -15,7 +15,7 @@ export class StudyGroup extends BaseModel {
 
   static getFormGroup() {
     return new FormGroup({
-      IDStudyGroup: new FormControl(0, required),
+      IDStudyGroup: new FormControl(),
       IDEmployee: new FormControl(0, required),
       GroupNumber: new FormControl('', required),
       Specialty: new FormControl('', required),

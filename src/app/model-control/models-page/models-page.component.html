@@ -1,5 +1,18 @@
-<nav class="nav models__nav">
-  <a *ngFor="let link of links" [routerLink]="link.href" class="nav__a">{{
-    link.title
-  }}</a>
-</nav>
+<header class="header models__header">
+  <nav class="nav header__nav">
+    <mat-tab-group
+      (selectedTabChange)="onTabChange($event)"
+      [selectedIndex]="selectedTab"
+    >
+      <mat-tab
+        *ngFor="let link of links"
+        class="nav__a"
+        [aria-label]="link.href"
+        [label]="link.title"
+      ></mat-tab>
+    </mat-tab-group>
+  </nav>
+</header>
+<section class="section models__main">
+  <router-outlet></router-outlet>
+</section>

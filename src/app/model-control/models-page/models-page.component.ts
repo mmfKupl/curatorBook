@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Link } from '../../link';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatTabChangeEvent } from '@angular/material';
 
 @Component({
   selector: 'app-models-page',
@@ -7,9 +9,31 @@ import { Link } from '../../link';
   styleUrls: ['./models-page.component.scss']
 })
 export class ModelsPageComponent implements OnInit {
-  links: Link[] = [{ title: 'Ученик', href: 'student' }];
+  links: Link[] = [
+    { title: 'Ученик', href: 'student' },
+    { title: 'Группа', href: 'study-group' },
+    { title: 'Работник', href: 'employee' },
+    { title: 'Статус работника', href: 'employee-status' },
+    { title: 'Категория информации', href: 'info-category' },
+    { title: 'Информация', href: 'info' },
+    { title: 'Родитель', href: 'parent' },
+    { title: 'Город', href: 'town' },
+    { title: 'Перевод', href: 'transfer' },
+    { title: 'Тип категории информации', href: 'type-info-category' }
+  ];
 
-  constructor() {}
+  selectedTab: number;
 
-  ngOnInit() {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    const f = this.route.snapshot.firstChild.url[0];
+    const firsthPath = f ? f.path : '';
+    this.selectedTab =
+      this.links.findIndex(link => link.href === firsthPath) || 0;
+  }
+
+  onTabChange(event: MatTabChangeEvent) {
+    this.router.navigate(['models', event.tab.ariaLabel]);
+  }
 }

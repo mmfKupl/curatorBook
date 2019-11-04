@@ -1,0 +1,58 @@
+:host {
+  width: 100%;
+  height: 100%;
+  background-color: #fafafa;
+}
+
+.model__form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.form__form-field {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.pate__table-wrapper {
+  width: 100%;
+}
+
+.wrapper {
+  height: 100%;
+}
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-sidenav {
+  padding: 20px;
+}
+
+.td__select,
+.th__select {
+  width: 3rem;
+}
+
+.button--edit {
+  background-color: #8b8b8be7;
+  width: 1px;
+  height: 1.5rem;
+}
+
+.td__button,
+.th_button {
+  width: 4rem;
+}
