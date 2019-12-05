@@ -13,7 +13,8 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatSnackBarModule,
-  MatSelectModule
+  MatSelectModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TranslateKeysPipe } from './translate-keys.pipe';
@@ -41,7 +42,8 @@ import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
     MatNativeDateModule,
     MatDatepickerModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule
   ]
 })
 export class ModelControlModule {}

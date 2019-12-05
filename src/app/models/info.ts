@@ -24,12 +24,14 @@ export class Info extends BaseModel {
       },
       {
         key: 'IDStudent',
-        type: 'number',
+        type: 'select',
+        options: 'Student',
         validators: required
       },
       {
         key: 'IDInfoCategory',
-        type: 'number',
+        type: 'select',
+        options: 'InfoCategory',
         validators: required
       },
       {

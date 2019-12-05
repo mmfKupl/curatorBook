@@ -23,7 +23,8 @@ export class Employee extends BaseModel {
       },
       {
         key: 'IDEmployeeStatus',
-        type: 'number',
+        type: 'select',
+        options: 'EmployeeStatus',
         validators: required
       },
       {

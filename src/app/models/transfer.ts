@@ -21,12 +21,14 @@ export class Transfer extends BaseModel {
       },
       {
         key: 'IDStudent',
-        type: 'number',
+        type: 'select',
+        options: 'Student',
         validators: required
       },
       {
         key: 'IDStudyGroup',
-        type: 'number',
+        type: 'select',
+        options: 'StudyGroup',
         validators: required
       },
       {

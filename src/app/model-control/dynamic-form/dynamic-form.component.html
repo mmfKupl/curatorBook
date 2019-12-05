@@ -35,11 +35,17 @@
   </mat-form-field>
 
   <mat-form-field *ngSwitchCase="'select'">
-    <mat-label>{{ formType.key | translateKeys }}</mat-label>
-    <mat-select [formControlName]="formType.key">
-      <mat-option *ngFor="let opt of formType.options" [value]="opt">{{
-        opt
-      }}</mat-option>
+    <mat-label>{{ formType.key | translateKeys }} </mat-label>
+    <mat-select
+      #select
+      [formControlName]="formType.key"
+      (click)="openSelect($event, select)"
+    >
+      <mat-option
+        *ngFor="let opt of currentOptions$ | async"
+        [value]="opt.value"
+        >{{ opt.text }}</mat-option
+      >
     </mat-select>
   </mat-form-field>
 
@@ -60,4 +66,8 @@
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
+
+  <div class="spinner-wrapper" *ngIf="showSpinner">
+    <mat-spinner diameter="20"></mat-spinner>
+  </div>
 </div>

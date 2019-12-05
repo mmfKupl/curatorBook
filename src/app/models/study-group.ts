@@ -1,6 +1,8 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BaseModel } from './base-model';
 import { FormType } from './form-type';
+import { Moment, isMoment } from 'moment';
+import * as moment from 'moment';
 const required = Validators.required;
 
 export class StudyGroup extends BaseModel {
@@ -9,7 +11,7 @@ export class StudyGroup extends BaseModel {
     public IDEmployee: number,
     public GroupNumber: string,
     public Specialty: string,
-    public DateOfFormation: Date
+    public DateOfFormation: Date & Moment
   ) {
     super();
   }
@@ -22,7 +24,8 @@ export class StudyGroup extends BaseModel {
       },
       {
         key: 'IDEmployee',
-        type: 'number',
+        type: 'select',
+        options: 'Employee',
         validators: required
       },
       {

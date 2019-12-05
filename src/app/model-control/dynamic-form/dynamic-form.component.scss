@@ -1,9 +1,18 @@
-div {
+div:not(.spinner-wrapper) {
   min-width: 10rem;
   max-width: 25rem;
   width: 20rem;
+  display: flex;
 }
 mat-form-field,
 mat-checkbox {
   width: 100%;
+}
+
+.spinner-wrapper {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  padding: 0 5px;
+  margin: 0 5px 0;
 }

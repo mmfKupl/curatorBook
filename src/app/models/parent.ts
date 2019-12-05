@@ -69,8 +69,7 @@ export class Parent extends BaseModel {
       },
       {
         key: 'PhoneNumber2',
-        type: 'tel',
-        validators: required
+        type: 'tel'
       }
     ];
   }

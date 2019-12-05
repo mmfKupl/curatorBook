@@ -2,6 +2,10 @@ import { SexType, forbiddenNameValidator, SexTypeRegExp } from './sex.type';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BaseModel } from './base-model';
 import { FormType } from './form-type';
+import { Town } from './town';
+import { DatabaseService } from '../database.service';
+import { Moment } from 'moment';
+import * as moment from 'moment';
 const required = Validators.required;
 
 export class Student extends BaseModel {
@@ -15,7 +19,7 @@ export class Student extends BaseModel {
     public Name: string,
     public Patronymic: string,
     public Sex: SexType,
-    public DateOfBirth: Date,
+    public DateOfBirth: Date & Moment,
     public PlaceOfResidence: string,
     public AddresOfResidence: string,
     public PhoneNumber: string
@@ -31,17 +35,20 @@ export class Student extends BaseModel {
       },
       {
         key: 'IDTown',
-        type: 'number',
+        type: 'select',
+        options: 'Town',
         validators: required
       },
       {
         key: 'IDParent1',
-        type: 'number',
+        type: 'select',
+        options: 'Parent',
         validators: required
       },
       {
         key: 'IDParent2',
-        type: 'number',
+        type: 'select',
+        options: 'Parent',
         validators: required
       },
       {

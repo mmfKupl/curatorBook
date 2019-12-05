@@ -20,7 +20,8 @@ export class InfoCategory extends BaseModel {
       },
       {
         key: 'IDTypeInfoCategory',
-        type: 'number',
+        type: 'select',
+        options: 'TypeInfoCategory',
         validators: required
       }
     ];

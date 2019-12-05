@@ -49,7 +49,7 @@
 
     <ng-container *ngFor="let key of formControlNames" [matColumnDef]="key">
       <th mat-header-cell *matHeaderCellDef>{{ key | translateKeys }}</th>
-      <td mat-cell *matCellDef="let row">{{ row[key] }}</td>
+      <td mat-cell *matCellDef="let row">{{ row[key] | date:'shortDate' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="edit">

@@ -11,6 +11,7 @@ import { Student } from './models/student';
 import { Info } from './models/info';
 import { StudyGroup } from './models/study-group';
 import { Transfer } from './models/transfer';
+import { isMoment } from 'moment';
 const { remote } = require('electron');
 
 @Injectable({
@@ -25,7 +26,7 @@ export class DatabaseService {
     ) as DatabaseInterface).connection;
   }
 
-  private async getList(name: string) {
+  async getList(name: string) {
     return (await this.connection.query(`exec Get${name}List`)).recordset;
   }
 
@@ -48,8 +49,8 @@ export class DatabaseService {
     return await this.getList('Town');
   }
 
-  async addEmployeeStatus({ Type, Name, IDEmployeeStatus }: EmployeeStatus) {
-    const q = `exec AddEmployeeStatus ${Type}, '${Name}', ${IDEmployeeStatus}`;
+  async addEmployeeStatus({ Name, IDEmployeeStatus }: EmployeeStatus) {
+    const q = `exec AddEmployeeStatus '${Name}', ${IDEmployeeStatus}`;
     return this.connection.query(q);
   }
 
@@ -154,7 +155,11 @@ export class DatabaseService {
     PhoneNumber,
     IDStudent
   }: Student) {
-    const q = `exec AddStudent ${IDTown}, ${IDParent1}, ${IDParent2}, '${Citizenship}', '${Surname}', '${Name}', '${Patronymic}', '${Sex}', '${DateOfBirth}', '${PlaceOfResidence}', '${AddresOfResidence}', '${PhoneNumber}', ${IDStudent}`;
+    let date: string | Date = DateOfBirth;
+    if (isMoment(date)) {
+      date = date.format('L');
+    }
+    const q = `exec AddStudent ${IDTown}, ${IDParent1}, ${IDParent2}, '${Citizenship}', '${Surname}', '${Name}', '${Patronymic}', '${Sex}', '${date}', '${PlaceOfResidence}', '${AddresOfResidence}', '${PhoneNumber}', ${IDStudent}`;
     return this.connection.query(q);
   }
 
@@ -163,7 +168,8 @@ export class DatabaseService {
   }
 
   async getStudentList() {
-    return await this.getList('Student');
+    const data = await this.getList('Student');
+    return data.map(item => Student.getFromFormGroup(item));
   }
 
   async addInfo({
@@ -195,7 +201,11 @@ export class DatabaseService {
     DateOfFormation,
     IDStudyGroup
   }: StudyGroup) {
-    const q = `exec AddStudyGroup ${IDEmployee}, ${GroupNumber}, ${Specialty}, '${DateOfFormation}', ${IDStudyGroup}`;
+    let date: string | Date = DateOfFormation;
+    if (isMoment(date)) {
+      date = date.format('L');
+    }
+    const q = `exec AddStudyGroup ${IDEmployee}, ${GroupNumber}, ${Specialty}, '${date}', ${IDStudyGroup}`;
     return this.connection.query(q);
   }
 
@@ -204,7 +214,9 @@ export class DatabaseService {
   }
 
   async getStudyGroupList() {
-    return await this.getList('StudyGroup');
+    return (await this.getList('StudyGroup')).map(item =>
+      StudyGroup.getFromFormGroup(item)
+    );
   }
 
   async addTransfer({ IDStudent, IDStudyGroup, Date, IDTransfer }: Transfer) {

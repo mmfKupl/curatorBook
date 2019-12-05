@@ -19,6 +19,7 @@ import { FromEventTarget } from 'rxjs/internal/observable/fromEvent';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormType } from '../../models/form-type';
 import { SnackBarComponent } from '../../snack-bar/snack-bar.component';
+import * as moment from 'moment/moment';
 
 @Component({
   selector: 'app-page',
@@ -169,22 +170,6 @@ export class PageComponent implements OnInit, OnDestroy {
     }
     console.log(this.currentFormGroup.value);
     if (this.isEdit) {
-      // this.db
-      //   .updateTown(this.currentFormGroup.value, this.oldValue)
-      //   .then(async res => {
-      //     console.log(res);
-      //     this.opentSnackBar('Данные успешно обновлены');
-      //     this.currentData = await this.getListFunction();
-      //     this.currentFormGroup.reset();
-      //   })
-      //   .catch(err => {
-      //     console.error(err);
-      //     this.opentSnackBar(err.message);
-      //   })
-      //   .finally(() => {
-      //     this.isEdit = false;
-      //     this.oldValue = {};
-      //   });
       return;
     }
     this.addFunction(this.currentFormGroup.value)
@@ -243,7 +228,7 @@ export class PageComponent implements OnInit, OnDestroy {
       event.preventDefault();
     }
     const curValue = value ? value : this.currentFormGroup.value;
-    if (!value) {
+    if (!curValue) {
       this.opentSnackBar('Данные введены неверно');
       return;
     }

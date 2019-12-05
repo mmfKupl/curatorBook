@@ -19,7 +19,7 @@ export class EmployeeStatus extends BaseModel {
         type: 'number'
       },
       {
-        key: 'Type',
+        key: 'Name',
         type: 'text',
         validators: required
       }
