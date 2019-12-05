@@ -4,11 +4,7 @@ import { FormType } from './form-type';
 const required = Validators.required;
 
 export class EmployeeStatus extends BaseModel {
-  constructor(
-    public IDEmployeeStatus: number,
-    public Type: number,
-    public Name: string
-  ) {
+  constructor(public IDEmployeeStatus: number, public Name: string) {
     super();
   }
 
@@ -26,11 +22,7 @@ export class EmployeeStatus extends BaseModel {
     ];
   }
 
-  static getFromFormGroup({
-    IDEmployeeStatus,
-    Type,
-    Name
-  }: any): EmployeeStatus {
-    return new EmployeeStatus(IDEmployeeStatus, Type, Name);
+  static getFromFormGroup({ IDEmployeeStatus, Name }: any): EmployeeStatus {
+    return new EmployeeStatus(IDEmployeeStatus, Name);
   }
 }

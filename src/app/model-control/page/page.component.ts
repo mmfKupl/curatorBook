@@ -33,6 +33,7 @@ export class PageComponent implements OnInit, OnDestroy {
 
   getListFunction: any;
   addFunction: any;
+  updateFunction: (next: any, old: any) => Promise<any>;
   deleteFunction: any;
 
   currentData: BaseModel[] = [];
@@ -58,60 +59,70 @@ export class PageComponent implements OnInit, OnDestroy {
           this.getListFunction = this.db.getStudentList;
           this.deleteFunction = this.db.deleteStudent;
           this.addFunction = this.db.addStudent;
+          this.updateFunction = this.db.updateStudent;
           break;
         case 'study-group':
           this.currentFormTypes = StudyGroup.getTypes();
           this.getListFunction = this.db.getStudyGroupList;
           this.deleteFunction = this.db.deleteStudyGroup;
           this.addFunction = this.db.addStudyGroup;
+          this.updateFunction = this.db.updateStudyGroup;
           break;
         case 'employee':
           this.currentFormTypes = Employee.getTypes();
           this.getListFunction = this.db.getEmployeeList;
           this.deleteFunction = this.db.deleteEmployee;
           this.addFunction = this.db.addEmployee;
+          this.updateFunction = this.db.updateEmployee;
           break;
         case 'employee-status':
           this.currentFormTypes = EmployeeStatus.getTypes();
           this.getListFunction = this.db.getEmployeeStatusList;
           this.deleteFunction = this.db.deleteEmployeeStatus;
           this.addFunction = this.db.addEmployeeStatus;
+          this.updateFunction = this.db.updateEmployeeStatus;
           break;
         case 'info-category':
           this.currentFormTypes = InfoCategory.getTypes();
           this.getListFunction = this.db.getInfoCategoryList;
           this.deleteFunction = this.db.deleteInfoCategory;
           this.addFunction = this.db.addInfoCategory;
+          this.updateFunction = this.db.updateInfoCategory;
           break;
         case 'info':
           this.currentFormTypes = Info.getTypes();
           this.getListFunction = this.db.getInfoList;
           this.deleteFunction = this.db.deleteInfo;
           this.addFunction = this.db.addInfo;
+          this.updateFunction = this.db.updateInfo;
           break;
         case 'parent':
           this.currentFormTypes = Parent.getTypes();
           this.getListFunction = this.db.getParentList;
           this.deleteFunction = this.db.deleteParent;
           this.addFunction = this.db.addParent;
+          this.updateFunction = this.db.updateParent;
           break;
         case 'town':
           this.currentFormTypes = Town.getTypes();
           this.getListFunction = this.db.getTownList;
           this.deleteFunction = this.db.deleteTown;
           this.addFunction = this.db.addTown;
+          this.updateFunction = this.db.updateTown;
           break;
         case 'transfer':
           this.currentFormTypes = Transfer.getTypes();
           this.getListFunction = this.db.getTransferList;
           this.deleteFunction = this.db.deleteTransfer;
           this.addFunction = this.db.addTransfer;
+          this.updateFunction = this.db.updateTransfer;
           break;
         case 'type-info-category':
           this.currentFormTypes = TypeInfoCategory.getTypes();
           this.getListFunction = this.db.getTypeInfoCategoryList;
           this.deleteFunction = this.db.deleteTypeInfoCategory;
           this.addFunction = this.db.addTypeInfoCategory;
+          this.updateFunction = this.db.updateTypeInfoCategory;
           break;
         default:
           this.currentFormGroup = null;
@@ -119,12 +130,14 @@ export class PageComponent implements OnInit, OnDestroy {
           this.deleteFunction = async () => {};
           this.getListFunction = async () => {};
           this.addFunction = async () => {};
+          this.updateFunction = async () => {};
       }
       this.getListFunction = this.getListFunction.bind(this.db);
       if (this.currentFormTypes.length) {
         this.currentFormGroup = this.toFormGroup(this.currentFormTypes);
       }
       this.addFunction = this.addFunction.bind(this.db);
+      this.updateFunction = this.updateFunction.bind(this.db);
       this.deleteFunction = this.deleteFunction.bind(this.db);
       this.currentData = await this.getListFunction();
     });
@@ -164,26 +177,40 @@ export class PageComponent implements OnInit, OnDestroy {
     this.urlSubscription.unsubscribe();
   }
 
+  private async handleFormResponse(res, message) {
+    console.log(res);
+    this.opentSnackBar(message);
+    this.currentData = await this.getListFunction();
+    this.currentFormGroup.reset();
+  }
+
+  private handleFormError(err) {
+    console.error(err);
+    this.opentSnackBar(err.message);
+  }
+
   submitForm() {
     if (this.currentFormGroup.invalid) {
       this.opentSnackBar('Данные введены неверно');
       return;
     }
     if (this.isEdit) {
-      this.opentSnackBar('Нету функционала добавления');
-      this.isEdit = false;
+      this.updateFunction(this.currentFormGroup.value, this.oldValue)
+        .then(async res => {
+          await this.handleFormResponse(res, 'Данные успешно обновлены');
+          this.isEdit = false;
+        })
+        .catch(err => {
+          this.handleFormError(err);
+        });
       return;
     }
     this.addFunction(this.currentFormGroup.value)
       .then(async res => {
-        console.log(res);
-        this.opentSnackBar('Данные успешно добавлены');
-        this.currentData = await this.getListFunction();
-        this.currentFormGroup.reset();
+        this.handleFormResponse(res, 'Данные успешно добавлены');
       })
       .catch(err => {
-        console.error(err);
-        this.opentSnackBar(err.message);
+        this.handleFormError(err);
       });
   }
 

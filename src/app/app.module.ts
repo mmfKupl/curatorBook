@@ -18,11 +18,12 @@ import { AppComponent } from './app.component';
 import { ModelControlModule } from './model-control/model-control.module';
 import { SnackBarComponent } from './snack-bar/snack-bar.component';
 import { ModelsPageComponent } from './model-control/models-page/models-page.component';
+import { MainPageComponent } from './main-page/main-page.component';
 
 // AoT requires an exported function for factories
 
 @NgModule({
-  declarations: [AppComponent, SnackBarComponent],
+  declarations: [AppComponent, SnackBarComponent, MainPageComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

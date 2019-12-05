@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, Menu } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import { DatabaseInterface } from './db/db';
@@ -11,7 +11,6 @@ serve = args.some(val => val === '--serve');
 
 async function createWindow() {
   globalDb.database = await DatabaseInterface.init();
-  console.log(globalDb.database);
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 

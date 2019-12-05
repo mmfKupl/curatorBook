@@ -11,7 +11,8 @@ import { Student } from './models/student';
 import { Info } from './models/info';
 import { StudyGroup } from './models/study-group';
 import { Transfer } from './models/transfer';
-import { isMoment } from 'moment';
+import { isMoment, isDate, Moment } from 'moment';
+import * as moment from 'moment/moment';
 const { remote } = require('electron');
 
 @Injectable({
@@ -36,8 +37,7 @@ export class DatabaseService {
   }
 
   async updateTown(next: Town, old: Town) {
-    const q = `update Town set IDTown = ${next.IDTown}, Name = '${next.Name}' where IDTown = ${old.IDTown}`;
-    console.log(q);
+    const q = `exec updateTown '${next.Name}', ${old.IDTown}`;
     return this.connection.query(q);
   }
 
@@ -54,6 +54,11 @@ export class DatabaseService {
     return this.connection.query(q);
   }
 
+  async updateEmployeeStatus(next: EmployeeStatus, old: EmployeeStatus) {
+    const q = `exec updateEmployeeStatus '${next.Name}', ${old.IDEmployeeStatus}`;
+    return this.connection.query(q);
+  }
+
   async deleteEmployeeStatus({ IDEmployeeStatus }: EmployeeStatus) {
     return this.connection.query(
       `exec DeleteEmployeeStatus ${IDEmployeeStatus}`
@@ -66,6 +71,11 @@ export class DatabaseService {
 
   async addTypeInfoCategory({ Name, IDTypeInfoCategory }: TypeInfoCategory) {
     const q = `exec AddTypeInfoCategory '${Name}', ${IDTypeInfoCategory}`;
+    return this.connection.query(q);
+  }
+
+  async updateTypeInfoCategory(next: TypeInfoCategory, old: TypeInfoCategory) {
+    const q = `exec updateTypeInfoCategory '${next.Name}', ${old.IDTypeInfoCategory}`;
     return this.connection.query(q);
   }
 
@@ -88,6 +98,11 @@ export class DatabaseService {
     return this.connection.query(q);
   }
 
+  async updateInfoCategory(next: InfoCategory, old: InfoCategory) {
+    const q = `exec updateInfoCategory ${next.IDTypeInfoCategory}, '${next.Name}', ${old.IDInfoCategory}`;
+    return this.connection.query(q);
+  }
+
   async deleteInfoCategory({ IDInfoCategory }: InfoCategory) {
     return this.connection.query(`exec DeleteInfoCategory ${IDInfoCategory}`);
   }
@@ -105,6 +120,14 @@ export class DatabaseService {
     IDEmployee
   }: Employee) {
     const q = `exec AddEmployee ${IDEmployeeStatus}, '${Surname}', '${Name}', '${Patronymic}', '${PhoneNumber}', ${IDEmployee}`;
+    return this.connection.query(q);
+  }
+
+  async updateEmployee(
+    { IDEmployeeStatus, Surname, Name, Patronymic, PhoneNumber }: Employee,
+    { IDEmployee }: Employee
+  ) {
+    const q = `exec updateEmployee  ${IDEmployeeStatus}, '${Surname}', '${Name}', '${Patronymic}', '${PhoneNumber}', ${IDEmployee}`;
     return this.connection.query(q);
   }
 
@@ -132,6 +155,24 @@ export class DatabaseService {
     return this.connection.query(q);
   }
 
+  async updateParent(
+    {
+      Citizenship,
+      Surname,
+      Name,
+      Patronymic,
+      Sex,
+      WorkPlace,
+      WorkPosition,
+      PhoneNumber1,
+      PhoneNumber2
+    }: Parent,
+    { IDParent }: Parent
+  ) {
+    const q = `exec updateParent  '${Citizenship}', '${Surname}', '${Name}', '${Patronymic}', '${Sex}', '${WorkPlace}', '${WorkPosition}', '${PhoneNumber1}', '${PhoneNumber2}', ${IDParent}`;
+    return this.connection.query(q);
+  }
+
   async deleteParent({ IDParent }: Parent) {
     return this.connection.query(`exec DeleteParent ${IDParent}`);
   }
@@ -155,11 +196,30 @@ export class DatabaseService {
     PhoneNumber,
     IDStudent
   }: Student) {
-    let date: string | Date = DateOfBirth;
-    if (isMoment(date)) {
-      date = date.format('L');
-    }
+    const date = this.convertDate(DateOfBirth);
     const q = `exec AddStudent ${IDTown}, ${IDParent1}, ${IDParent2}, '${Citizenship}', '${Surname}', '${Name}', '${Patronymic}', '${Sex}', '${date}', '${PlaceOfResidence}', '${AddresOfResidence}', '${PhoneNumber}', ${IDStudent}`;
+    return this.connection.query(q);
+  }
+
+  async updateStudent(
+    {
+      IDTown,
+      IDParent1,
+      IDParent2,
+      Citizenship,
+      Surname,
+      Name,
+      Patronymic,
+      Sex,
+      DateOfBirth,
+      PlaceOfResidence,
+      AddresOfResidence,
+      PhoneNumber
+    }: Student,
+    { IDStudent }: Student
+  ) {
+    const date = this.convertDate(DateOfBirth);
+    const q = `exec updateStudent  ${IDTown}, ${IDParent1}, ${IDParent2}, '${Citizenship}', '${Surname}', '${Name}', '${Patronymic}', '${Sex}', '${date}', '${PlaceOfResidence}', '${AddresOfResidence}', '${PhoneNumber}', ${IDStudent}`;
     return this.connection.query(q);
   }
 
@@ -186,6 +246,15 @@ export class DatabaseService {
     return this.connection.query(q);
   }
 
+  async updateInfo(
+    { IDStudent, IDInfoCategory, Course, Semester, TextData, BoolData }: Info,
+    { IDInfo }: Info
+  ) {
+    const boolData = BoolData ? 1 : 0;
+    const q = `exec updateInfo  ${IDStudent}, ${IDInfoCategory}, ${Course}, ${Semester}, '${TextData}', ${boolData}, ${IDInfo}`;
+    return this.connection.query(q);
+  }
+
   async deleteInfo({ IDInfo }: Info) {
     return this.connection.query(`exec DeleteInfo ${IDInfo}`);
   }
@@ -201,11 +270,17 @@ export class DatabaseService {
     DateOfFormation,
     IDStudyGroup
   }: StudyGroup) {
-    let date: string | Date = DateOfFormation;
-    if (isMoment(date)) {
-      date = date.format('L');
-    }
+    const date = this.convertDate(DateOfFormation);
     const q = `exec AddStudyGroup ${IDEmployee}, ${GroupNumber}, ${Specialty}, '${date}', ${IDStudyGroup}`;
+    return this.connection.query(q);
+  }
+
+  async updateStudyGroup(
+    { IDEmployee, GroupNumber, Specialty, DateOfFormation }: StudyGroup,
+    { IDStudyGroup }: StudyGroup
+  ) {
+    const date = this.convertDate(DateOfFormation);
+    const q = `exec updateStudyGroup  ${IDEmployee}, ${GroupNumber}, ${Specialty}, '${date}', ${IDStudyGroup}`;
     return this.connection.query(q);
   }
 
@@ -219,8 +294,26 @@ export class DatabaseService {
     );
   }
 
-  async addTransfer({ IDStudent, IDStudyGroup, Date, IDTransfer }: Transfer) {
-    const q = `exec AddTransfer ${IDStudent}, ${IDStudyGroup}, '${Date}', ${IDTransfer}`;
+  async addTransfer({
+    IDStudent,
+    IDStudyGroup,
+    Date: _Date,
+    IDTransfer
+  }: Transfer) {
+    const date = this.convertDate(_Date);
+    const q = `exec AddTransfer ${IDStudent}, ${IDStudyGroup}, '${date}', ${IDTransfer}`;
+    return this.connection.query(q);
+  }
+
+  async updateTransfer(
+    { IDStudent, IDStudyGroup, Date: _Date }: Transfer,
+    { IDTransfer }: Transfer
+  ) {
+    let date: string | Date = _Date;
+    if (isMoment(date)) {
+      date = date.format('L');
+    }
+    const q = `exec updateTransfer  ${IDStudent}, ${IDStudyGroup}, '${date}', ${IDTransfer}`;
     return this.connection.query(q);
   }
 
@@ -230,5 +323,15 @@ export class DatabaseService {
 
   async getTransferList() {
     return await this.getList('Transfer');
+  }
+
+  private convertDate(date: string | Date | Moment) {
+    if (isMoment(date)) {
+      return date.format('L');
+    } else if (isDate(date)) {
+      date = moment(date);
+      return date.format('L');
+    }
+    return date;
   }
 }
