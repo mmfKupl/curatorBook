@@ -20,6 +20,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { FormType } from '../../models/form-type';
 import { SnackBarComponent } from '../../snack-bar/snack-bar.component';
 import * as moment from 'moment/moment';
+import { isDate } from 'util';
 
 @Component({
   selector: 'app-page',
@@ -168,8 +169,9 @@ export class PageComponent implements OnInit, OnDestroy {
       this.opentSnackBar('Данные введены неверно');
       return;
     }
-    console.log(this.currentFormGroup.value);
     if (this.isEdit) {
+      this.opentSnackBar('Нету функционала добавления');
+      this.isEdit = false;
       return;
     }
     this.addFunction(this.currentFormGroup.value)
@@ -215,6 +217,11 @@ export class PageComponent implements OnInit, OnDestroy {
       this.deleteItem(null, item);
     });
     this.selection.clear();
+  }
+
+  isDate(str: string) {
+    // tslint:disable-next-line: deprecation
+    return isDate(str);
   }
 
   editItem(i) {

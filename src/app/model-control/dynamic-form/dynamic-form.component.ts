@@ -29,6 +29,7 @@ import { OptionValue } from '../../models/option-value';
 export class DynamicFormComponent implements OnInit {
   @Input() formType: FormType;
   @Input() form: FormGroup;
+  @Input() initDownload: boolean;
 
   currentOptions$ = new BehaviorSubject<any[]>([]);
   isOptionsDownloaded = false;
@@ -37,16 +38,28 @@ export class DynamicFormComponent implements OnInit {
 
   constructor(private dbs: DatabaseService) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    if (this.initDownload && this.formType.type === 'select') {
+      await this.setOptinos();
+    }
+  }
 
   async openSelect(event: Event, elem: MatSelect) {
+    this.setOptinos(event, elem);
+  }
+
+  async setOptinos(event?: Event, elem?: MatSelect) {
     if (!this.isOptionsDownloaded) {
-      event.preventDefault();
+      if (event) {
+        event.preventDefault();
+      }
       this.showSpinner = true;
       const data = await this.getOptions();
       this.currentOptions$.next(data);
       setTimeout(() => {
-        elem.open();
+        if (elem) {
+          elem.open();
+        }
         this.showSpinner = false;
       });
       this.isOptionsDownloaded = true;
@@ -55,7 +68,6 @@ export class DynamicFormComponent implements OnInit {
   }
 
   async getOptions() {
-    console.log('getOptions', this.formType.options);
     if (typeof this.formType.options === 'string') {
       return (await this.dbs.getList(this.formType.options)).map(elem => {
         return this.getOptionData(this.formType.options as string, elem);
@@ -68,7 +80,6 @@ export class DynamicFormComponent implements OnInit {
   }
 
   getOptionData(tableName: string, listItem: any): OptionValue {
-    console.log(tableName, listItem);
     switch (tableName) {
       case 'Town':
         return new OptionValue(listItem.IDTown, listItem.Name);
