@@ -134,7 +134,6 @@ export class PageComponent implements OnInit, OnDestroy {
       this.updateFunction = this.updateFunction.bind(this.db);
       this.deleteFunction = this.deleteFunction.bind(this.db);
       this.currentData = await this.getListFunction();
-      console.log(url);
     });
   }
 
@@ -173,9 +172,8 @@ export class PageComponent implements OnInit, OnDestroy {
   }
 
   private async handleFormResponse(res, message) {
-    console.log(res);
     this.opentSnackBar(message);
-    this.currentData = await this.getListFunction();
+    this.currentData = await this.getListFunction(true);
     this.currentFormGroup.reset();
   }
 
@@ -275,6 +273,6 @@ export class PageComponent implements OnInit, OnDestroy {
   }
 
   async updateTable() {
-    this.currentData = await this.getListFunction();
+    this.currentData = await this.getListFunction(true);
   }
 }

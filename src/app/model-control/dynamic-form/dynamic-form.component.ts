@@ -69,45 +69,15 @@ export class DynamicFormComponent implements OnInit {
 
   async getOptions() {
     if (typeof this.formType.options === 'string') {
-      return (await this.dbs.getList(this.formType.options)).map(elem => {
-        return this.getOptionData(this.formType.options as string, elem);
-      });
+      return (await this.dbs.getList(this.formType.options, false)).map(
+        elem => {
+          return this.dbs.getOptionData(this.formType.options as string, elem);
+        }
+      );
     }
     return this.formType.options.map(option => ({
       value: option,
       text: option
     }));
-  }
-
-  getOptionData(tableName: string, listItem: any): OptionValue {
-    switch (tableName) {
-      case 'Town':
-        return new OptionValue(listItem.IDTown, listItem.Name);
-      case 'Parent':
-        return new OptionValue(
-          listItem.IDParent,
-          `${listItem.Surname} ${listItem.Name} ${listItem.Patronymic}`
-        );
-      case 'EmployeeStatus':
-        return new OptionValue(listItem.IDEmployeeStatus, listItem.Name);
-      case 'Employee':
-        return new OptionValue(
-          listItem.IDEmployee,
-          `${listItem.Name} ${listItem.Surname}`
-        );
-      case 'StudyGroup':
-        return new OptionValue(
-          listItem.IDStudyGroup,
-          `${listItem.GroupNumber} | ${listItem.Specialty}`
-        );
-      case 'Student':
-        return new OptionValue(
-          listItem.IDStudent,
-          `${listItem.Surname} ${listItem.Name} ${listItem.Patronymic}`
-        );
-      default:
-        const keys = Object.keys(listItem);
-        return new OptionValue(listItem[keys[0]], listItem[keys[1]]);
-    }
   }
 }

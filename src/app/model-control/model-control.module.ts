@@ -20,13 +20,15 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TranslateKeysPipe } from './translate-keys.pipe';
 import { PageComponent } from './page/page.component';
 import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { IdNamePipe } from './id-name.pipe';
 
 @NgModule({
   declarations: [
     ModelsPageComponent,
     TranslateKeysPipe,
     PageComponent,
-    DynamicFormComponent
+    DynamicFormComponent,
+    IdNamePipe
   ],
   imports: [
     CommonModule,

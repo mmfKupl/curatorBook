@@ -16,9 +16,7 @@ export class AppComponent implements OnInit {
     private database: DatabaseService,
     private router: Router,
     private ngZone: NgZone
-  ) {
-    console.log(this.database);
-  }
+  ) {}
 
   navigateTo(route: string) {
     this.router.navigate([route]);
@@ -136,7 +134,7 @@ export class AppComponent implements OnInit {
         submenu: Menu.buildFromTemplate([
           new MenuItem({ label: 'Перезагрузка', role: 'reload' }),
           new MenuItem({
-            label: 'принудительная перезагрузка',
+            label: 'Принудительная перезагрузка',
             role: 'forceReload'
           })
         ])

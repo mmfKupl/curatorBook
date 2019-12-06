@@ -13,6 +13,7 @@ import { StudyGroup } from './models/study-group';
 import { Transfer } from './models/transfer';
 import { isMoment, isDate, Moment } from 'moment';
 import * as moment from 'moment/moment';
+import { OptionValue } from './models/option-value';
 const { remote } = require('electron');
 
 @Injectable({
@@ -21,14 +22,82 @@ const { remote } = require('electron');
 export class DatabaseService {
   connection: ConnectionPool;
 
+  private listData: {
+    Town?: string;
+    EmployeeStatus?: string;
+    TypeInfoCategory?: string;
+    InfoCategory?: string;
+    Employee?: string;
+    Parent?: string;
+    Student?: string;
+    Info?: string;
+    StudyGroup?: string;
+    Transfer?: string;
+  } = {};
+
   constructor() {
     this.connection = (remote.getGlobal(
       'database'
     ) as DatabaseInterface).connection;
   }
 
-  async getList(name: string) {
-    return (await this.connection.query(`exec Get${name}List`)).recordset;
+  getOptionData(tableName: string, listItem: any): OptionValue {
+    switch (tableName) {
+      case 'Town':
+        return new OptionValue(listItem.IDTown, listItem.Name);
+      case 'Parent':
+        return new OptionValue(
+          listItem.IDParent,
+          `${listItem.Surname} ${listItem.Name} ${listItem.Patronymic}`
+        );
+      case 'EmployeeStatus':
+        return new OptionValue(listItem.IDEmployeeStatus, listItem.Name);
+      case 'Employee':
+        return new OptionValue(
+          listItem.IDEmployee,
+          `${listItem.Name} ${listItem.Surname}`
+        );
+      case 'StudyGroup':
+        return new OptionValue(
+          listItem.IDStudyGroup,
+          `${listItem.GroupNumber} | ${listItem.Specialty}`
+        );
+      case 'Student':
+        return new OptionValue(
+          listItem.IDStudent,
+          `${listItem.Surname} ${listItem.Name} ${listItem.Patronymic}`
+        );
+      default:
+        const keys = Object.keys(listItem);
+        return new OptionValue(listItem[keys[0]], listItem[keys[1]]);
+    }
+  }
+
+  async getList(name: string, needUpdate: boolean) {
+    if (
+      needUpdate ||
+      !this.listData[name] ||
+      this.listData[name].length !== (await this.getListLength(name))
+    ) {
+      this.listData[name] = (
+        await this.connection.query(`exec Get${name}List`)
+      ).recordset;
+    }
+    return this.listData[name];
+  }
+
+  async getItemByIDFromTable(tableName: string, id: number) {
+    return (
+      await this.connection.query(
+        `select * from ${tableName} where ID${tableName} = ${id}`
+      )
+    ).recordset[0];
+  }
+
+  private async getListLength(name: string) {
+    return (
+      await this.connection.query(`select count(*) as amount from ${name}`)
+    ).recordset[0].amount;
   }
 
   async addTown({ Name, IDTown }: Town) {
@@ -45,8 +114,8 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteTown ${IDTown}`);
   }
 
-  async getTownList() {
-    return await this.getList('Town');
+  async getTownList(needUpdate: boolean) {
+    return await this.getList('Town', needUpdate);
   }
 
   async addEmployeeStatus({ Name, IDEmployeeStatus }: EmployeeStatus) {
@@ -65,8 +134,8 @@ export class DatabaseService {
     );
   }
 
-  async getEmployeeStatusList() {
-    return await this.getList('EmployeeStatus');
+  async getEmployeeStatusList(needUpdate: boolean) {
+    return await this.getList('EmployeeStatus', needUpdate);
   }
 
   async addTypeInfoCategory({ Name, IDTypeInfoCategory }: TypeInfoCategory) {
@@ -85,8 +154,8 @@ export class DatabaseService {
     );
   }
 
-  async getTypeInfoCategoryList() {
-    return await this.getList('TypeInfoCategory');
+  async getTypeInfoCategoryList(needUpdate: boolean) {
+    return await this.getList('TypeInfoCategory', needUpdate);
   }
 
   async addInfoCategory({
@@ -107,8 +176,8 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteInfoCategory ${IDInfoCategory}`);
   }
 
-  async getInfoCategoryList() {
-    return await this.getList('InfoCategory');
+  async getInfoCategoryList(needUpdate: boolean) {
+    return await this.getList('InfoCategory', needUpdate);
   }
 
   async addEmployee({
@@ -135,8 +204,8 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteEmployee ${IDEmployee}`);
   }
 
-  async getEmployeeList() {
-    return await this.getList('Employee');
+  async getEmployeeList(needUpdate: boolean) {
+    return await this.getList('Employee', needUpdate);
   }
 
   async addParent({
@@ -177,8 +246,8 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteParent ${IDParent}`);
   }
 
-  async getParentList() {
-    return await this.getList('Parent');
+  async getParentList(needUpdate: boolean) {
+    return await this.getList('Parent', needUpdate);
   }
 
   async addStudent({
@@ -227,8 +296,8 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteStudent ${IDStudent}`);
   }
 
-  async getStudentList() {
-    const data = await this.getList('Student');
+  async getStudentList(needUpdate: boolean) {
+    const data = await this.getList('Student', needUpdate);
     return data.map(item => Student.getFromFormGroup(item));
   }
 
@@ -259,8 +328,8 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteInfo ${IDInfo}`);
   }
 
-  async getInfoList() {
-    return await this.getList('Info');
+  async getInfoList(needUpdate: boolean) {
+    return await this.getList('Info', needUpdate);
   }
 
   async addStudyGroup({
@@ -288,8 +357,8 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteStudyGroup ${IDStudyGroup}`);
   }
 
-  async getStudyGroupList() {
-    return (await this.getList('StudyGroup')).map(item =>
+  async getStudyGroupList(needUpdate: boolean) {
+    return (await this.getList('StudyGroup', needUpdate)).map(item =>
       StudyGroup.getFromFormGroup(item)
     );
   }
@@ -321,8 +390,8 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteTransfer ${IDTransfer}`);
   }
 
-  async getTransferList() {
-    return await this.getList('Transfer');
+  async getTransferList(needUpdate: boolean) {
+    return await this.getList('Transfer', needUpdate);
   }
 
   private convertDate(date: string | Date | Moment) {
