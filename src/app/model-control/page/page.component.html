@@ -72,7 +72,7 @@
 
   <div class="buttons-wrapper">
     <button type="button" mat-button color="primary" (click)="drawer.toggle()">
-      Добавить
+      {{ drawer.opened ? 'Закрыть' : 'Добавить' }}
     </button>
     <button type="button" mat-button color="warn" (click)="deleteSelected()">
       Удалить выбранные

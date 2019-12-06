@@ -54,6 +54,7 @@ export class PageComponent implements OnInit, OnDestroy {
       const [current] = url;
       const currentPath = current ? current.path : '';
       switch (currentPath) {
+        default:
         case 'student':
           this.currentFormTypes = Student.getTypes();
           this.getListFunction = this.db.getStudentList;
@@ -124,13 +125,6 @@ export class PageComponent implements OnInit, OnDestroy {
           this.addFunction = this.db.addTypeInfoCategory;
           this.updateFunction = this.db.updateTypeInfoCategory;
           break;
-        default:
-          this.currentFormGroup = null;
-          this.currentFormTypes = [];
-          this.deleteFunction = async () => {};
-          this.getListFunction = async () => {};
-          this.addFunction = async () => {};
-          this.updateFunction = async () => {};
       }
       this.getListFunction = this.getListFunction.bind(this.db);
       if (this.currentFormTypes.length) {
@@ -140,6 +134,7 @@ export class PageComponent implements OnInit, OnDestroy {
       this.updateFunction = this.updateFunction.bind(this.db);
       this.deleteFunction = this.deleteFunction.bind(this.db);
       this.currentData = await this.getListFunction();
+      console.log(url);
     });
   }
 

@@ -28,14 +28,83 @@ export class AppComponent implements OnInit {
     const menu = Menu.buildFromTemplate([
       {
         label: 'Меню',
-        submenu: [
+        submenu: Menu.buildFromTemplate([
           {
-            label: 'Главная',
-            click: () => {
-              this.ngZone.run(() => {
-                this.navigateTo('');
-              });
-            }
+            label: 'Формы',
+            submenu: Menu.buildFromTemplate([
+              {
+                label: 'Список учащихся учебной группы',
+                click: () => {
+                  this.ngZone.run(() => {
+                    this.navigateTo('');
+                  });
+                }
+              },
+              {
+                label: 'Социально-педагогическая характеристика',
+                click: () => {
+                  this.ngZone.run(() => {
+                    this.navigateTo('');
+                  });
+                }
+              },
+              {
+                label: 'Актив учебной группы',
+                click: () => {
+                  this.ngZone.run(() => {
+                    this.navigateTo('');
+                  });
+                }
+              },
+              {
+                label: 'Достижения учебной группы',
+                click: () => {
+                  this.ngZone.run(() => {
+                    this.navigateTo('');
+                  });
+                }
+              },
+              {
+                label: 'Отчисления за период обучения',
+                click: () => {
+                  this.ngZone.run(() => {
+                    this.navigateTo('');
+                  });
+                }
+              },
+              {
+                label: 'Карта персонифицированного учета',
+                click: () => {
+                  this.ngZone.run(() => {
+                    this.navigateTo('');
+                  });
+                }
+              },
+              {
+                label: 'Рекомендации специалистов',
+                click: () => {
+                  this.ngZone.run(() => {
+                    this.navigateTo('');
+                  });
+                }
+              },
+              {
+                label: 'Учет посещаемости родителями проводимых мероприятий',
+                click: () => {
+                  this.ngZone.run(() => {
+                    this.navigateTo('');
+                  });
+                }
+              },
+              {
+                label: 'Формы взаимодействия с родителями учащихся',
+                click: () => {
+                  this.ngZone.run(() => {
+                    this.navigateTo('');
+                  });
+                }
+              }
+            ])
           },
           {
             label: 'Модели данных',
@@ -44,15 +113,33 @@ export class AppComponent implements OnInit {
                 this.navigateTo('models');
               });
             }
+          },
+          {
+            type: 'separator'
+          },
+          {
+            label: 'Перезайти как...'
           }
-        ]
+        ])
       },
       {
-        label: 'Помощь',
+        label: 'Справка',
         accelerator: 'f1',
         click: () => {
-          console.log('Помощь');
+          this.ngZone.run(() => {
+            this.navigateTo('help');
+          });
         }
+      },
+      {
+        label: 'Окно',
+        submenu: Menu.buildFromTemplate([
+          new MenuItem({ label: 'Перезагрузка', role: 'reload' }),
+          new MenuItem({
+            label: 'принудительная перезагрузка',
+            role: 'forceReload'
+          })
+        ])
       },
       {
         label: 'Выход',
