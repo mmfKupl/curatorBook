@@ -3,6 +3,7 @@ import { ElectronService } from './core/services';
 import { DatabaseService } from './database.service';
 import { remote } from 'electron';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from './auth.service';
 const { Menu, MenuItem, app } = remote;
 
 @Component({
@@ -15,7 +16,8 @@ export class AppComponent implements OnInit {
     public electronService: ElectronService,
     private database: DatabaseService,
     private router: Router,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private as: AuthService
   ) {}
 
   navigateTo(route: string) {
@@ -28,13 +30,21 @@ export class AppComponent implements OnInit {
         label: 'Меню',
         submenu: Menu.buildFromTemplate([
           {
+            label: 'Главная',
+            click: () => {
+              this.ngZone.run(() => {
+                this.navigateTo('');
+              });
+            }
+          },
+          {
             label: 'Формы',
             submenu: Menu.buildFromTemplate([
               {
                 label: 'Список учащихся учебной группы',
                 click: () => {
                   this.ngZone.run(() => {
-                    this.navigateTo('');
+                    this.navigateTo('student-list');
                   });
                 }
               },
@@ -42,7 +52,7 @@ export class AppComponent implements OnInit {
                 label: 'Социально-педагогическая характеристика',
                 click: () => {
                   this.ngZone.run(() => {
-                    this.navigateTo('');
+                    this.navigateTo('sp-characteristic');
                   });
                 }
               },
@@ -116,7 +126,13 @@ export class AppComponent implements OnInit {
             type: 'separator'
           },
           {
-            label: 'Перезайти как...'
+            label: 'Выйти',
+            click: () => {
+              this.ngZone.run(() => {
+                this.as.logOut();
+                this.navigateTo('auth');
+              });
+            }
           }
         ])
       },
@@ -138,12 +154,6 @@ export class AppComponent implements OnInit {
             role: 'forceReload'
           })
         ])
-      },
-      {
-        label: 'Выход',
-        click: () => {
-          app.quit();
-        }
       }
     ]);
     Menu.setApplicationMenu(menu);

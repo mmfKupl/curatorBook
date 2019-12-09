@@ -1,0 +1,27 @@
+<div>
+  <mat-form-field>
+    <mat-label>Группа</mat-label>
+    <mat-select [(ngModel)]="groupNumber">
+      <mat-option value="-1">__</mat-option>
+      <mat-option
+        *ngFor="let group of groupList"
+        [value]="group.IDStudyGroup"
+        >{{ group.GroupNumber }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Работник</mat-label>
+    <mat-select [(ngModel)]="userType">
+      <mat-option value="-1">Администратор</mat-option>
+      <mat-option
+        *ngFor="let status of statusList"
+        [value]="status.IDEmployeeStatus"
+        >{{ status.Name }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+
+  <button (click)="logIn()" mat-button>Войти</button>
+</div>

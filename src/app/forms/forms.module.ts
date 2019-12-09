@@ -2,13 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FormsRoutingModule } from './forms-routing.module';
-
+import { StudentsListComponent } from './students-list/students-list.component';
+import { MatCardModule, MatTableModule } from '@angular/material';
+import { SPCharacteristicComponent } from './spcharacteristic/spcharacteristic.component';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    FormsRoutingModule
-  ]
+  declarations: [StudentsListComponent, SPCharacteristicComponent],
+  imports: [CommonModule, FormsRoutingModule, MatTableModule]
 })
-export class FormsModule { }
+export class AppFormsModule {}

@@ -9,6 +9,8 @@ export class StudyGroup extends BaseModel {
   constructor(
     public IDStudyGroup: number,
     public IDEmployee: number,
+    public IDHeadman: number,
+    public IDDeputyHeadman: number,
     public GroupNumber: string,
     public Specialty: string,
     public DateOfFormation: Date & Moment
@@ -27,6 +29,16 @@ export class StudyGroup extends BaseModel {
         type: 'select',
         options: 'Employee',
         validators: required
+      },
+      {
+        key: 'IDHeadman',
+        type: 'select',
+        options: 'Student'
+      },
+      {
+        key: 'IDDeputyHeadman',
+        type: 'select',
+        options: 'Student'
       },
       {
         key: 'GroupNumber',
@@ -49,6 +61,8 @@ export class StudyGroup extends BaseModel {
   static getFromFormGroup({
     IDStudyGroup,
     IDEmployee,
+    IDHeadman,
+    IDDeputyHeadman,
     GroupNumber,
     Specialty,
     DateOfFormation
@@ -56,6 +70,8 @@ export class StudyGroup extends BaseModel {
     return new StudyGroup(
       IDStudyGroup,
       IDEmployee,
+      IDHeadman,
+      IDDeputyHeadman,
       GroupNumber,
       Specialty,
       DateOfFormation

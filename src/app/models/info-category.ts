@@ -23,6 +23,10 @@ export class InfoCategory extends BaseModel {
         type: 'select',
         options: 'TypeInfoCategory',
         validators: required
+      },
+      {
+        key: 'Name',
+        type: 'textarea'
       }
     ];
   }

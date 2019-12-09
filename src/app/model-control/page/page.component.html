@@ -48,13 +48,16 @@
       </td>
     </ng-container>
 
-    <ng-container *ngFor="let key of formControlNames" [matColumnDef]="key">
+    <ng-container
+      *ngFor="let key of formControlNames; let ind = index"
+      [matColumnDef]="key"
+    >
       <th mat-header-cell *matHeaderCellDef>{{ key | translateKeys }}</th>
       <td mat-cell *matCellDef="let row">
         {{
           isDate(row[key])
             ? (row[key] | date: 'shortDate')
-            : (row[key] | idName: key | async)
+            : (row[key] | idName: key:ind | async)
         }}
       </td>
     </ng-container>

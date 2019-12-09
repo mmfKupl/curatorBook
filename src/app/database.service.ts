@@ -14,6 +14,7 @@ import { Transfer } from './models/transfer';
 import { isMoment, isDate, Moment } from 'moment';
 import * as moment from 'moment/moment';
 import { OptionValue } from './models/option-value';
+import { AuthService } from './auth.service';
 const { remote } = require('electron');
 
 @Injectable({
@@ -67,6 +68,10 @@ export class DatabaseService {
           listItem.IDStudent,
           `${listItem.Surname} ${listItem.Name} ${listItem.Patronymic}`
         );
+      case 'TypeInfoCategory':
+        return new OptionValue(listItem.IDTypeInfoCategory, listItem.Name);
+      case 'InfoCategory':
+        return new OptionValue(listItem.IDInfoCategory, listItem.Name);
       default:
         const keys = Object.keys(listItem);
         return new OptionValue(listItem[keys[0]], listItem[keys[1]]);
@@ -134,12 +139,15 @@ export class DatabaseService {
     );
   }
 
-  async getEmployeeStatusList(needUpdate: boolean) {
+  async getEmployeeStatusList(
+    needUpdate: boolean = false
+  ): Promise<EmployeeStatus[]> {
     return await this.getList('EmployeeStatus', needUpdate);
   }
 
   async addTypeInfoCategory({ Name, IDTypeInfoCategory }: TypeInfoCategory) {
     const q = `exec AddTypeInfoCategory '${Name}', ${IDTypeInfoCategory}`;
+    console.log(q);
     return this.connection.query(q);
   }
 
@@ -204,7 +212,7 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteEmployee ${IDEmployee}`);
   }
 
-  async getEmployeeList(needUpdate: boolean) {
+  async getEmployeeList(needUpdate: boolean = false): Promise<Employee[]> {
     return await this.getList('Employee', needUpdate);
   }
 
@@ -296,9 +304,19 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteStudent ${IDStudent}`);
   }
 
-  async getStudentList(needUpdate: boolean) {
-    const data = await this.getList('Student', needUpdate);
-    return data.map(item => Student.getFromFormGroup(item));
+  async getStudentList(needUpdate: boolean = false): Promise<Student[]> {
+    const data: Student[] = (
+      await this.getList('Student', needUpdate)
+    ).map(item => Student.getFromFormGroup(item));
+    return data;
+  }
+
+  async getStudentListByGroup(groupNumber: number): Promise<Student[]> {
+    if (groupNumber === -1) {
+      return await this.getStudentList();
+    }
+    const q = `exec GetStudentListByGroup '${groupNumber}'`;
+    return (await this.connection.query(q)).recordset;
   }
 
   async addInfo({
@@ -345,11 +363,18 @@ export class DatabaseService {
   }
 
   async updateStudyGroup(
-    { IDEmployee, GroupNumber, Specialty, DateOfFormation }: StudyGroup,
+    {
+      IDEmployee,
+      IDHeadman,
+      IDDeputyHeadman,
+      GroupNumber,
+      Specialty,
+      DateOfFormation
+    }: StudyGroup,
     { IDStudyGroup }: StudyGroup
   ) {
     const date = this.convertDate(DateOfFormation);
-    const q = `exec updateStudyGroup  ${IDEmployee}, ${GroupNumber}, ${Specialty}, '${date}', ${IDStudyGroup}`;
+    const q = `exec updateStudyGroup  ${IDEmployee}, ${IDHeadman}, ${IDDeputyHeadman}, ${GroupNumber}, ${Specialty}, '${date}', ${IDStudyGroup}`;
     return this.connection.query(q);
   }
 
@@ -357,7 +382,7 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteStudyGroup ${IDStudyGroup}`);
   }
 
-  async getStudyGroupList(needUpdate: boolean) {
+  async getStudyGroupList(needUpdate: boolean = false): Promise<StudyGroup[]> {
     return (await this.getList('StudyGroup', needUpdate)).map(item =>
       StudyGroup.getFromFormGroup(item)
     );
@@ -390,7 +415,7 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteTransfer ${IDTransfer}`);
   }
 
-  async getTransferList(needUpdate: boolean) {
+  async getTransferList(needUpdate: boolean = false): Promise<Transfer[]> {
     return await this.getList('Transfer', needUpdate);
   }
 
@@ -402,5 +427,11 @@ export class DatabaseService {
       return date.format('L');
     }
     return date;
+  }
+
+  async getSPCharacteristic(groupNumber: number) {
+    return (
+      await this.connection.query(`exec GetSPCharacteristic ${groupNumber}`)
+    ).recordset;
   }
 }

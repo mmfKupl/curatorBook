@@ -1,0 +1,30 @@
+<div class="wrapper">
+  <h1>СПИСОК УЧАЩИХСЯ УЧЕБНОЙ ГРУППЫ</h1>
+  <mat-table [dataSource]="studentList">
+    <ng-container matColumnDef="ind">
+      <mat-header-cell *matHeaderCellDef>№ </mat-header-cell>
+      <mat-cell *matCellDef="let ind = index">
+        {{ ind + 1 }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="FIO">
+      <mat-header-cell *matHeaderCellDef
+        >Фамилия, Имя, Отчество
+      </mat-header-cell>
+      <mat-cell *matCellDef="let elem">
+        {{ elem.Surname }} {{ elem.Name }} {{ elem.Patronymic }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="PhoneNumber">
+      <mat-header-cell *matHeaderCellDef>Номер телефона </mat-header-cell>
+      <mat-cell *matCellDef="let elem">
+        {{ elem.PhoneNumber }}
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColums"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColums"></mat-row>
+  </mat-table>
+</div>

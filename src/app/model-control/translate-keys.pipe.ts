@@ -34,7 +34,9 @@ const dictionary = {
   Patronymic: 'Отчество',
   Sex: 'Пол',
   DateOfBirth: 'Дата Рождения',
-  PlaceOfResidence: 'Место жительства'
+  PlaceOfResidence: 'Место жительства',
+  IDHeadman: 'Староста',
+  IDDeputyHeadman: 'Зам старосты'
 };
 
 @Pipe({

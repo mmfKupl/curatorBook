@@ -9,13 +9,18 @@ export class IdNamePipe implements PipeTransform {
   async transform(
     value: string,
     idName: string,
+    columnIndex: number,
     ...args: any[]
   ): Promise<string> {
-    if (!idName || !value || !idName.includes('ID', 0)) {
+    if (!idName || !value || !idName.includes('ID', 0) || columnIndex === 0) {
       return value;
     }
     try {
-      const tableName = idName.replace('ID', '').replace(/\d*/g, '');
+      const tableName = idName
+        .replace('ID', '')
+        .replace('Headman', 'Student')
+        .replace('DeputyHeadman', 'Student')
+        .replace(/\d*/g, '');
       const currentItem = await this.dbs.getItemByIDFromTable(
         tableName,
         +value
@@ -23,6 +28,7 @@ export class IdNamePipe implements PipeTransform {
       if (!currentItem) {
         return value;
       }
+      console.log(tableName);
       return this.dbs.getOptionData(tableName, currentItem).text;
     } catch (err) {
       console.error(err);

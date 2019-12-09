@@ -46,13 +46,11 @@ export class Info extends BaseModel {
       },
       {
         key: 'TextData',
-        type: 'textarea',
-        validators: required
+        type: 'textarea'
       },
       {
         key: 'BoolData',
-        type: 'checkbox',
-        validators: required
+        type: 'checkbox'
       }
     ];
   }
