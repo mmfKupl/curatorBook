@@ -162,7 +162,9 @@ export class DatabaseService {
     );
   }
 
-  async getTypeInfoCategoryList(needUpdate: boolean) {
+  async getTypeInfoCategoryList(
+    needUpdate: boolean = false
+  ): Promise<TypeInfoCategory[]> {
     return await this.getList('TypeInfoCategory', needUpdate);
   }
 
@@ -184,7 +186,9 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteInfoCategory ${IDInfoCategory}`);
   }
 
-  async getInfoCategoryList(needUpdate: boolean) {
+  async getInfoCategoryList(
+    needUpdate: boolean = false
+  ): Promise<InfoCategory[]> {
     return await this.getList('InfoCategory', needUpdate);
   }
 
@@ -396,6 +400,7 @@ export class DatabaseService {
   }: Transfer) {
     const date = this.convertDate(_Date);
     const q = `exec AddTransfer ${IDStudent}, ${IDStudyGroup}, '${date}', ${IDTransfer}`;
+    console.log(q);
     return this.connection.query(q);
   }
 
@@ -421,10 +426,10 @@ export class DatabaseService {
 
   private convertDate(date: string | Date | Moment) {
     if (isMoment(date)) {
-      return date.format('L');
+      return date.format('MM.DD.YYYY');
     } else if (isDate(date)) {
       date = moment(date);
-      return date.format('L');
+      return date.format('MM.DD.YYYY');
     }
     return date;
   }

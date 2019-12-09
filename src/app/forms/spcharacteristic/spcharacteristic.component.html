@@ -1,5 +1,17 @@
 <div class="wrapper">
   <h1>{{ 'Социально-педагогическая характеристика' | uppercase }}</h1>
+  <mat-form-field>
+    <input #course matInput type="number" placeholder="Курс" value="1" />
+  </mat-form-field>
+  <mat-form-field>
+    <input #semester matInput type="number" placeholder="Семестр" value="1" />
+  </mat-form-field>
+  <button
+    mat-button
+    (click)="setCourseAndSemester(+course.value, +semester.value)"
+  >
+    Выбрать
+  </button>
   <mat-table [dataSource]="data">
     <ng-container matColumnDef="ind">
       <mat-header-cell *matHeaderCellDef>№ </mat-header-cell>
@@ -20,8 +32,15 @@
     <ng-container matColumnDef="DateOfBirth">
       <mat-header-cell *matHeaderCellDef>Дата Рождения</mat-header-cell>
       <mat-cell *matCellDef="let elem">
-        {{ elem.DateOfBirth }}
+        {{ elem.DateOfBirth | date: 'dd.MM.yyyy' }}
       </mat-cell>
+    </ng-container>
+
+    <ng-container *ngFor="let ic of currentInfoCategories" [matColumnDef]="ic">
+      <mat-header-cell *matHeaderCellDef>{{ ic }}</mat-header-cell>
+      <mat-cell *matCellDef="let elem; let ind = index">{{
+        getStudentData(ind, ic)?.BoolData ? '+' : ''
+      }}</mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColums"></mat-header-row>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Moment } from 'moment';
 import { DatabaseService } from '../../database.service';
 import { AuthService } from '../../auth.service';
+import { TouchBarScrubber } from 'electron';
 
 interface SPCItem {
   IDStudent: number;
@@ -25,20 +26,47 @@ interface SPCItem {
 export class SPCharacteristicComponent implements OnInit {
   data: any;
   displayedColums: string[] = ['ind', 'FIO', 'DateOfBirth'];
+  currentCourse = 1;
+  currentSemester = 1;
+  activeData: any[] = [];
+  currentInfoCategories: string[] = [];
 
   constructor(private dbs: DatabaseService, private as: AuthService) {}
 
   ngOnInit() {
     const groupNumber = this.as.getGroupNumber();
+    Promise.all([
+      this.dbs.getInfoCategoryList(),
+      this.dbs.getTypeInfoCategoryList()
+    ]).then(data => {
+      const spc = data[1].find(d => d.Name === 'СПХ');
+      if (!spc) {
+        return;
+      }
+      this.currentInfoCategories = data[0]
+        .filter(d => d.IDTypeInfoCategory === spc.IDTypeInfoCategory)
+        .map(d => d.Name);
+      this.displayedColums = [
+        'ind',
+        'FIO',
+        'DateOfBirth',
+        ...this.currentInfoCategories
+      ];
+      console.log(this.displayedColums);
+    });
     this.dbs
       .getSPCharacteristic(groupNumber)
       .then(data => {
-        console.log(data);
         this.data = this.reduceData(data);
         console.log(this.data);
-        console.log(Array.from(this.data));
       })
       .catch(err => console.log(err));
+  }
+
+  setCourseAndSemester(course: number, semester: number) {
+    console.log(course, semester);
+    this.currentCourse = course;
+    this.currentSemester = semester;
   }
 
   reduceData(data: SPCItem[]) {
@@ -70,9 +98,24 @@ export class SPCharacteristicComponent implements OnInit {
       return acc;
     }, {});
     const arr = [];
-    for (let key in d) {
+    // tslint:disable-next-line: forin
+    for (const key in d) {
       const stud = d[key];
+      stud.IDStudent = key;
+      arr.push(stud);
     }
-    return d;
+    return arr;
+  }
+
+  getStudentData(i: number, value: string) {
+    const d = this.data[i].courses[this.currentCourse].semesters[
+      this.currentSemester
+    ];
+    if (!d) {
+      return {};
+    }
+    return d.find(
+      (dd: { InfoCategoryName: string }) => dd.InfoCategoryName === value
+    );
   }
 }

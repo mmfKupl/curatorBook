@@ -56,7 +56,7 @@
       <td mat-cell *matCellDef="let row">
         {{
           isDate(row[key])
-            ? (row[key] | date: 'shortDate')
+            ? (row[key] | date: 'dd.MM.yyyy')
             : (row[key] | idName: key:ind | async)
         }}
       </td>
