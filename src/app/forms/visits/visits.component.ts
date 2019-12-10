@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseService } from '../../database.service';
-import { AuthService } from '../../auth.service';
-import { StudyGroup } from '../../models/study-group';
+import {StudyGroup} from '../../models/study-group';
+import {DatabaseService} from '../../database.service';
+import {AuthService} from '../../auth.service';
 
 @Component({
-  selector: 'app-sgassets',
-  templateUrl: './sgassets.component.html',
-  styleUrls: ['./sgassets.component.scss']
+  selector: 'app-visits',
+  templateUrl: './visits.component.html',
+  styleUrls: ['./visits.component.scss']
 })
-export class SGAssetsComponent implements OnInit {
+export class VisitsComponent implements OnInit {
   data: any;
   currentGroup: StudyGroup;
   headman: string;
@@ -39,7 +39,7 @@ export class SGAssetsComponent implements OnInit {
             d[1][0].Surname + ' ' + d[1][0].Name + ' ' + d[1][0].Patronymic;
         }
         this.dbs
-          .getSP('АУГ', groupNumber)
+          .getSP('УПР', groupNumber)
           .then(dd => {
             this.data = this.reduceData(dd);
             console.log(this.data);
@@ -114,7 +114,8 @@ export class SGAssetsComponent implements OnInit {
 
       sectors[semester.InfoCategoryName].push({
         FIO: item.Surname + ' ' + item.Name + ' ' + item.Patronymic,
-        text: semester.TextData
+        text: semester.TextData,
+        bool: semester.BoolData
       });
     });
     const arr = [];
@@ -130,6 +131,6 @@ export class SGAssetsComponent implements OnInit {
     return arr.length ? arr : [];
   }
   saveToXml() {
-    console.log(this.dbs.parseToXml(this.data, 'Assets'));
+    console.log(this.dbs.parseToXml(this.data, 'Visits'));
   }
 }

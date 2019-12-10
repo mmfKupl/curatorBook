@@ -118,13 +118,13 @@ export class PageComponent implements OnInit, OnDestroy {
           this.addFunction = this.db.addTransfer;
           this.updateFunction = this.db.updateTransfer;
           break;
-        case 'type-info-category':
-          this.currentFormTypes = TypeInfoCategory.getTypes();
-          this.getListFunction = this.db.getTypeInfoCategoryList;
-          this.deleteFunction = this.db.deleteTypeInfoCategory;
-          this.addFunction = this.db.addTypeInfoCategory;
-          this.updateFunction = this.db.updateTypeInfoCategory;
-          break;
+        // case 'type-info-category':
+        //   this.currentFormTypes = TypeInfoCategory.getTypes();
+        //   this.getListFunction = this.db.getTypeInfoCategoryList;
+        //   this.deleteFunction = this.db.deleteTypeInfoCategory;
+        //   this.addFunction = this.db.addTypeInfoCategory;
+        //   this.updateFunction = this.db.updateTypeInfoCategory;
+        //   break;
       }
       this.getListFunction = this.getListFunction.bind(this.db);
       if (this.currentFormTypes.length) {

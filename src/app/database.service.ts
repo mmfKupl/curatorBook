@@ -14,14 +14,17 @@ import { Transfer } from './models/transfer';
 import { isMoment, isDate, Moment } from 'moment';
 import * as moment from 'moment/moment';
 import { OptionValue } from './models/option-value';
-import { AuthService } from './auth.service';
 const { remote } = require('electron');
+const fs = require('fs');
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
   connection: ConnectionPool;
+  dialog: any;
+
+  private js2xmlparser: any;
 
   private listData: {
     Town?: string;
@@ -40,6 +43,28 @@ export class DatabaseService {
     this.connection = (remote.getGlobal(
       'database'
     ) as DatabaseInterface).connection;
+    this.js2xmlparser = (remote.getGlobal(('js2xmlparser')));
+    this.dialog = remote.dialog;
+  }
+
+  parseToXml(data: any = {}, name: string) {
+
+    this.dialog.showSaveDialog({title: 'save', defaultPath: name + '.xml', filters: [{name: 'xml', extensions: []}] }).then(res => {
+      console.log(res);
+      const {filePath} = res;
+      if (!filePath) {
+        return;
+      }
+      const xmlData = this.js2xmlparser.parse(name, data);
+      fs.writeFile(filePath, xmlData, (err) => {
+        if (err) {
+          alert(err);
+          return;
+        }
+        console.log('ura');
+      });
+
+    });
   }
 
   getOptionData(tableName: string, listItem: any): OptionValue {
@@ -258,7 +283,7 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteParent ${IDParent}`);
   }
 
-  async getParentList(needUpdate: boolean) {
+  async getParentList(needUpdate: boolean = false): Promise<Parent[]> {
     return await this.getList('Parent', needUpdate);
   }
 
@@ -350,7 +375,7 @@ export class DatabaseService {
     return this.connection.query(`exec DeleteInfo ${IDInfo}`);
   }
 
-  async getInfoList(needUpdate: boolean) {
+  async getInfoList(needUpdate: boolean = false): Promise<Info[]> {
     return await this.getList('Info', needUpdate);
   }
 

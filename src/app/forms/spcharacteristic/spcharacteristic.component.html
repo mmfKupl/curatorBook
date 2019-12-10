@@ -46,4 +46,5 @@
     <mat-header-row *matHeaderRowDef="displayedColums"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColums"></mat-row>
   </mat-table>
+  <button mat-button (click)="saveToXml()">Сохранить в Excel</button>
 </div>

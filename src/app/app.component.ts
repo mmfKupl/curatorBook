@@ -68,7 +68,7 @@ export class AppComponent implements OnInit {
                 label: 'Достижения учебной группы',
                 click: () => {
                   this.ngZone.run(() => {
-                    this.navigateTo('');
+                    this.navigateTo('ac-group');
                   });
                 }
               },
@@ -76,7 +76,7 @@ export class AppComponent implements OnInit {
                 label: 'Отчисления за период обучения',
                 click: () => {
                   this.ngZone.run(() => {
-                    this.navigateTo('');
+                    this.navigateTo('groups-lives');
                   });
                 }
               },
@@ -84,7 +84,7 @@ export class AppComponent implements OnInit {
                 label: 'Карта персонифицированного учета',
                 click: () => {
                   this.ngZone.run(() => {
-                    this.navigateTo('');
+                    this.navigateTo('card');
                   });
                 }
               },
@@ -92,7 +92,7 @@ export class AppComponent implements OnInit {
                 label: 'Рекомендации специалистов',
                 click: () => {
                   this.ngZone.run(() => {
-                    this.navigateTo('');
+                    this.navigateTo('recommendation');
                   });
                 }
               },
@@ -100,7 +100,7 @@ export class AppComponent implements OnInit {
                 label: 'Учет посещаемости родителями проводимых мероприятий',
                 click: () => {
                   this.ngZone.run(() => {
-                    this.navigateTo('');
+                    this.navigateTo('visits');
                   });
                 }
               },
@@ -108,7 +108,7 @@ export class AppComponent implements OnInit {
                 label: 'Формы взаимодействия с родителями учащихся',
                 click: () => {
                   this.ngZone.run(() => {
-                    this.navigateTo('');
+                    this.navigateTo('visits-forms');
                   });
                 }
               }

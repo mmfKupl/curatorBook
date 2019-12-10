@@ -1,0 +1,41 @@
+<mat-form-field>
+  <mat-label>Учащийся</mat-label>
+  <mat-select [(ngModel)]="currentStudentId">
+    <mat-option *ngFor="let student of students" [value]="student.IDStudent" >
+      {{student.Surname}} {{student.Name}} {{student.Patronymic}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-card *ngIf="currentStudent">
+  <mat-card-header>
+    <mat-card-title>{{currentStudent.Surname}} {{currentStudent.Name}} {{currentStudent.Patronymic}}</mat-card-title>
+    <mat-card-subtitle>Дата рождения: {{currentStudent.DateOfBirth | date:'dd.MM.yyyy'}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <ul>
+      <li *ngFor="let key of currentStudentKeys">{{key | translateKeys}}: {{currentStudent[key]}}</li>
+    </ul>
+    <ng-container *ngFor="let parent of currentParents; let i = index">
+      <mat-divider></mat-divider>
+      <mat-label class="parent-label">Родитель {{i+1}}</mat-label>
+      <ul >
+        <li *ngFor="let key of getKeyses(parent)">{{key | translateKeys}}: {{parent[key]}}</li>
+      </ul>
+    </ng-container>
+    <ng-container *ngFor="let info of currentInfo; let i = index">
+      <mat-divider></mat-divider>
+      <mat-label class="parent-label">{{info.IDInfoCategory + '' | idName:'IDInfoCategory':1 | async}}</mat-label>
+      <ul >
+        <ng-container *ngFor="let key of getKeyses(info); let ind = index">
+          <li *ngIf="info[key] !== 'null' && info[key] !== 'false' && info[key] !== false">
+            {{key | translateKeys}}: {{ info[key] | idName:key:ind | async }}
+          </li>
+        </ng-container>
+
+<!--        <li *ngFor="let key of getParentKeyses(parent)">{{key | translateKeys}}: {{parent[key]}}</li>-->
+      </ul>
+    </ng-container>
+
+  </mat-card-content>
+  <button mat-button (click)="saveToXml()">Сохранить в Excel</button>
+</mat-card>

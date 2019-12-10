@@ -19,7 +19,7 @@ export class ModelsPageComponent implements OnInit {
     { title: 'Город', href: 'town' },
     { title: 'Информация', href: 'info' },
     { title: 'Категория информации', href: 'info-category' },
-    { title: 'Тип категории информации', href: 'type-info-category' }
+    // { title: 'Тип категории информации', href: 'type-info-category' }
   ];
 
   selectedTab: number;

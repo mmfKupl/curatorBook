@@ -23,4 +23,8 @@ export class StudentsListComponent implements OnInit {
       })
       .catch(err => console.log(err));
   }
+
+  saveToXml() {
+    console.log(this.dbs.parseToXml(this.studentList, 'StudentList'));
+  }
 }

@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseService } from '../../database.service';
-import { AuthService } from '../../auth.service';
-import { StudyGroup } from '../../models/study-group';
+import {StudyGroup} from '../../models/study-group';
+import {DatabaseService} from '../../database.service';
+import {AuthService} from '../../auth.service';
 
 @Component({
-  selector: 'app-sgassets',
-  templateUrl: './sgassets.component.html',
-  styleUrls: ['./sgassets.component.scss']
+  selector: 'app-lives',
+  templateUrl: './lives.component.html',
+  styleUrls: ['./lives.component.scss']
 })
-export class SGAssetsComponent implements OnInit {
+export class LivesComponent implements OnInit {
   data: any;
   currentGroup: StudyGroup;
   headman: string;
@@ -39,7 +39,7 @@ export class SGAssetsComponent implements OnInit {
             d[1][0].Surname + ' ' + d[1][0].Name + ' ' + d[1][0].Patronymic;
         }
         this.dbs
-          .getSP('АУГ', groupNumber)
+          .getSP('ОЗП', groupNumber)
           .then(dd => {
             this.data = this.reduceData(dd);
             console.log(this.data);
@@ -129,7 +129,8 @@ export class SGAssetsComponent implements OnInit {
     console.log(arr);
     return arr.length ? arr : [];
   }
+
   saveToXml() {
-    console.log(this.dbs.parseToXml(this.data, 'Assets'));
+    console.log(this.dbs.parseToXml(this.data, 'Lives'));
   }
 }

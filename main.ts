@@ -2,8 +2,8 @@ import { app, BrowserWindow, screen, Menu } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import { DatabaseInterface } from './db/db';
-
-const globalDb: NodeJS.Global & { database?: DatabaseInterface } = global;
+import * as js2xmlparser from 'js2xmlparser';
+const globalDb: NodeJS.Global & { database?: DatabaseInterface } & {js2xmlparser?: any} = global;
 
 let win, serve;
 const args = process.argv.slice(1);
@@ -11,6 +11,7 @@ serve = args.some(val => val === '--serve');
 
 async function createWindow() {
   globalDb.database = await DatabaseInterface.init();
+  globalDb.js2xmlparser = js2xmlparser;
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 

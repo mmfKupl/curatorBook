@@ -118,4 +118,7 @@ export class SPCharacteristicComponent implements OnInit {
       (dd: { InfoCategoryName: string }) => dd.InfoCategoryName === value
     );
   }
+  saveToXml() {
+    console.log(this.dbs.parseToXml(this.data, 'Characteristics'));
+  }
 }

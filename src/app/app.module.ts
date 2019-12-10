@@ -27,6 +27,9 @@ import {
   MatSelectModule,
   MatButtonModule
 } from '@angular/material';
+import { AchivesComponent } from './forms/achives/achives.component';
+import { LivesComponent } from './forms/lives/lives.component';
+import { CardComponent } from './forms/card/card.component';
 
 // AoT requires an exported function for factories
 

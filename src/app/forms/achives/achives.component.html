@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <h1>АКТИВ УЧЕБНОЙ ГРУППЫ</h1>
+  <h1>ДОСТИЖЕНИЯ УЧЕБНОЙ ГРУППЫ</h1>
   <mat-form-field>
     <input #course matInput type="number" placeholder="Курс" value="1" />
   </mat-form-field>
@@ -22,9 +22,10 @@
     </div>
     <div class="right">
       <p *ngFor="let st of item.data; let i = index">
-        <span>{{ i + 1 }}. </span>{{ st.FIO }}
+        <span>{{ i + 1 }}. </span>{{ st.FIO }} <strong> - </strong> {{ st.text }}
       </p>
     </div>
   </div>
 </div>
+
 <button mat-button (click)="saveToXml()">Сохранить в Excel</button>

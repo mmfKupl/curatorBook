@@ -30,6 +30,10 @@ import { IdNamePipe } from './id-name.pipe';
     DynamicFormComponent,
     IdNamePipe
   ],
+  exports: [
+    TranslateKeysPipe,
+    IdNamePipe
+  ],
   imports: [
     CommonModule,
     FormsModule,

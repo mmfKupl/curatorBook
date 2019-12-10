@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <h1>АКТИВ УЧЕБНОЙ ГРУППЫ</h1>
+  <h1>ПОСЕЩЕНИЕ РОДИТЕЛЯМИ</h1>
   <mat-form-field>
     <input #course matInput type="number" placeholder="Курс" value="1" />
   </mat-form-field>
@@ -17,14 +17,15 @@
   <h3>Зам-старосты: {{ deputyHeadman || '' }}</h3>
 
   <div class="sector" *ngFor="let item of getSectors(); let i = index">
-    <div class="left">
-      <h3>{{ item.sectorName }}</h3>
-    </div>
+    <!--    <div class="left">-->
+    <!--      <h3>{{ item.sectorName }}</h3>-->
+    <!--    </div>-->
     <div class="right">
       <p *ngFor="let st of item.data; let i = index">
-        <span>{{ i + 1 }}. </span>{{ st.FIO }}
+        <span>{{ i + 1 }}. </span>{{ st.FIO }} <strong>: </strong> {{st.bool ? 'Посещение было, результат - ' : 'Посещения небыло' }} {{ st.text }}
       </p>
     </div>
   </div>
+  <button (click)="saveToXml()" mat-button>Сохранить в Excel</button>
 </div>
-<button mat-button (click)="saveToXml()">Сохранить в Excel</button>
+
