@@ -10,9 +10,10 @@ import {
   MatInputModule
 } from '@angular/material';
 import { SPCharacteristicComponent } from './spcharacteristic/spcharacteristic.component';
+import { SGAssetsComponent } from './sgassets/sgassets.component';
 
 @NgModule({
-  declarations: [StudentsListComponent, SPCharacteristicComponent],
+  declarations: [StudentsListComponent, SPCharacteristicComponent, SGAssetsComponent],
   imports: [
     CommonModule,
     FormsRoutingModule,

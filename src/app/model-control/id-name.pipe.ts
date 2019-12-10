@@ -28,7 +28,6 @@ export class IdNamePipe implements PipeTransform {
       if (!currentItem) {
         return value;
       }
-      console.log(tableName);
       return this.dbs.getOptionData(tableName, currentItem).text;
     } catch (err) {
       console.error(err);

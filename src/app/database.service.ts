@@ -434,9 +434,19 @@ export class DatabaseService {
     return date;
   }
 
-  async getSPCharacteristic(groupNumber: number) {
+  async getSP(sectorName: string, groupNumber: number) {
     return (
-      await this.connection.query(`exec GetSPCharacteristic ${groupNumber}`)
+      await this.connection.query(`exec GetSP '${sectorName}', ${groupNumber}`)
     ).recordset;
+  }
+
+  async getHeadman(groupNumber: number) {
+    return (await this.connection.query(`exec getHeadmen ${groupNumber}`))
+      .recordset;
+  }
+
+  async getDeputyHeadmen(groupNumber: number) {
+    return (await this.connection.query(`exec getDeputyHeadmen ${groupNumber}`))
+      .recordset;
   }
 }

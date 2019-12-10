@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
                 label: 'Актив учебной группы',
                 click: () => {
                   this.ngZone.run(() => {
-                    this.navigateTo('');
+                    this.navigateTo('sg-assets');
                   });
                 }
               },

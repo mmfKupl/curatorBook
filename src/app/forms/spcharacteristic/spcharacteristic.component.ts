@@ -55,7 +55,7 @@ export class SPCharacteristicComponent implements OnInit {
       console.log(this.displayedColums);
     });
     this.dbs
-      .getSPCharacteristic(groupNumber)
+      .getSP('СПХ', groupNumber)
       .then(data => {
         this.data = this.reduceData(data);
         console.log(this.data);

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { StudentsListComponent } from './students-list/students-list.component';
 import { AuthGuard } from '../auth.guard';
 import { SPCharacteristicComponent } from './spcharacteristic/spcharacteristic.component';
+import { SGAssetsComponent } from './sgassets/sgassets.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
       {
         path: 'sp-characteristic',
         component: SPCharacteristicComponent
+      },
+      {
+        path: 'sg-assets',
+        component: SGAssetsComponent
       }
     ]
   }
